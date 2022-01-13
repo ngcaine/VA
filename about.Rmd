@@ -1,8 +1,11 @@
 ---
 title: "About this site"
 description: |
-  This website consists of a collection of works done for ISSS608 Visual Analytics and Applications.
+  ISSS608 Visual Analytics and Applications Website.
 ---
+
+Hi I'm Caine, a product development engineer at HP in print. Currently pursuing a Master's of information technology in business, SMU. This website consists of a collection of works done for ISSS608 Visual Analytics and Applications.     
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
