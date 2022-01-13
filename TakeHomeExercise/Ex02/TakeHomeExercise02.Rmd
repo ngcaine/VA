@@ -1,0 +1,25 @@
+---
+title: "Take-Home Exercise 2"
+description: |
+  Place Holder for Take home exercise 2
+author:
+  - name: Caine Ng 
+    url: https://www.linkedin.com/in/caine-ng-069a5273/
+    affiliation: SMU - MITB
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web. 
+
+Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+
+
+
+
+
