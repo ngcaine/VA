@@ -1,7 +1,7 @@
 ---
 title: "Take-Home Exercise 1"
 description: |
-  In this exercise, I learned how to edit a web article by using distill for RMarkdown.
+  In this exercise, I learned how to edit a web article by using distill for RMarkdown. This article was prepared as part of a learning exercise before start of the term for SMU-MITB module ISS608 - Visual Analytics.
 author:
   - name: Caine Ng 
     url: https://www.linkedin.com/in/caine-ng-069a5273/
@@ -12,7 +12,13 @@ output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  fig.retina=3,
+  echo = TRUE,
+  eval = TRUE,
+  warning = FALSE,
+  message = FALSE
+  )
 ```
 
 # 1.0 Overview
