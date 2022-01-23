@@ -8,7 +8,9 @@ author:
     affiliation: SMU - MITB
     affiliation_url: https://scis.smu.edu.sg/master-it-business
 date: "`r Sys.Date()`"
-output: distill::distill_article
+output: 
+   distill::distill_article:
+     toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -93,7 +95,7 @@ The following code chunk the Sub-Category attribute is converted to a factor typ
 freq_cum$`Sub-Category` <-factor(freq_cum$`Sub-Category`, levels = freq_cum$`Sub-Category`)
 ```
 
-## Data visualization
+## Data visualization (Pareto Chart)
 
 The data is visualized using ggplot grammar of visualizations methods in below code chunk the layers are added accordingly to the steps in the list below:
 
@@ -107,7 +109,7 @@ The data is visualized using ggplot grammar of visualizations methods in below c
 * Various theme adjustment such as changing background to white and lighter grey gridlines. to enhance readability of features
 
 
-```{r generate pareto chart, fig.width = 15, fig.asp = 0.618, fig.align='center'}
+```{r generate pareto chart, layout="l-page",  fig.width = 15, fig.asp = 0.618, fig.align='center'}
 
 ggplot(freq_cum, aes(x=`Sub-Category`, y = cumfreq)) +
   geom_point(color = "black") +
@@ -135,9 +137,9 @@ ggplot(freq_cum, aes(x=`Sub-Category`, y = cumfreq)) +
 
 ```
 
-# 4.0 Generating a Sex-Age pyramid
+# 4.0 Generating a Age-Sex pyramid
 
-In this part of the exercise, a [Sex-Age pyramid](https://en.wikipedia.org/wiki/Population_pyramid) will be generated. Population data of Singapore in 2021 obtain from [Singapore Department of Statistics](https://www.singstat.gov.sg/find-data/search-by-theme?theme=society&type=visualising-data) Website will be used. 
+In this part of the exercise, a [Age-Sex pyramid](https://en.wikipedia.org/wiki/Population_pyramid) will be generated. Population data of Singapore in 2021 obtain from [Singapore Department of Statistics](https://www.singstat.gov.sg/find-data/search-by-theme?theme=society&type=visualising-data) Website will be used. 
 
 ## Loading Data
 
@@ -170,7 +172,7 @@ pop2021_grouped <- pop2021_grouped %>% mutate(Pop2 = case_when(Sex == "Males" ~ 
                                             TRUE ~ n))
 ```
 
-## Data visualization
+## Data visualization (Age-Sex Pyramid)
 
 Final the data is visualized in the following code chuck with the steps listed below:
 
@@ -180,7 +182,7 @@ Final the data is visualized in the following code chuck with the steps listed b
 * Labels and theme adjustments were then added for readability.
 
 
-```{r generate gender sex pyramid, fig.width= 15, fig.asp=0.618, fig.align='center'}
+```{r generate gender sex pyramid, layout="l-page", fig.width= 15, fig.asp=0.618, fig.align='center'}
 ggplot(pop2021_grouped, aes(x = AG, y = n, fill = Sex)) + 
   geom_bar(aes(y = Pop2), stat= "identity" ) +
   scale_y_continuous(breaks = as.integer(seq(-200000, 200000, 25000)),

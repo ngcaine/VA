@@ -1,7 +1,7 @@
 ---
-title: "Take-Home Exercise 2"
+title: "Take-Home Exercise 3"
 description: |
-  Superstore pareto chart of returns and Singapore Gender-Age pyramid.
+  Placeholder for week 3
 author:
   - name: Caine Ng 
     url: https://www.linkedin.com/in/caine-ng-069a5273/
