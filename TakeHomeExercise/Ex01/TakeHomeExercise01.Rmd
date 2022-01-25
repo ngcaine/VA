@@ -42,7 +42,7 @@ for(p in packages){library
 }
 ```
 
-# 3.0 Generating a store returns Pareto Chart.
+# 3.0 Generating a Pareto chart of store returns
 
 A [Pareto chart](https://en.wikipedia.org/wiki/Pareto_chart) consist of a bar graph representing the number of occurrences in each individual category and a line graph showing the corresponding cumulative percentage of total occurrences across the categorues. 
 
