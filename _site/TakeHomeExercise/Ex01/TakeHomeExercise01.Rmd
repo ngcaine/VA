@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 # 1.0 Introduction
 
-In this take home exercise of two parts, a Pareto chart visualizing the proportion of returns from each sub-category of products from a superstore and a Age-Sex pyramid based on 2021 Singapore population data will be created with R code and ggplot functions. Both of which were previously created in tableau. In both parts steps taken to load, wrangle and tidy the data as well as steps to generate the visualization will be documented. Towards the end of this article, a comparison between creating the plots with R and tableau will be made.
+In this take home exercise of two parts, a Pareto chart visualizing the proportion of returns in each sub-category of products from a superstore and a Age-Sex pyramid based on 2021 Singapore population data will be created with R code and ggplot functions. Both of which were previously created in tableau. In both parts steps taken to load, wrangle and tidy the data as well as steps to generate the visualization will be documented. Towards the end of this article, a comparison between creating the plots with R and tableau will be made.
 
 # 2.0 Loading Required packages
 
@@ -44,7 +44,7 @@ for(p in packages){library
 
 # 3.0 Generating a Pareto chart of store returns
 
-A [Pareto chart](https://en.wikipedia.org/wiki/Pareto_chart) consist of a bar graph representing the number of occurrences in each individual category and a line graph showing the corresponding cumulative percentage of total occurrences across the categorues. 
+A [Pareto chart](https://en.wikipedia.org/wiki/Pareto_chart) consist of a bar graph representing the number of occurrences in each individual category and a line graph showing the corresponding cumulative percentage of total occurrences across the categories. It allows the user to quickly see the distribution of occurrences in different categories as well as the contribution of it to the whole.
 
 To visualize the returns by sub category, transaction data of each order from a superstore will be used. Some data wrangling would be required as the original data represents the order information and returned orders in two separate excel spreadsheets. After joining the data, the occurrences of returns and the cumulative percentage across the sub category would have to be calculated.
 
@@ -54,7 +54,7 @@ Steps performed to transform and visualize the data are documented below.
 
 Firstly the data is loaded in Rstudio.
 
-The data required for this visualization is stored in two separate spreadsheets of the data file. Following the readxl package read_xls function syntax, the data is read into two separate tibble format.  
+The data required for this visualization is stored in two separate spreadsheets of the data file. Following the readxl package read_xls function syntax, the data is read into two separate tibble.  
 
 ```{r loading-Data}
 orders <- read_xls("data/Superstore-2021.xls", sheet = "Orders")
@@ -151,16 +151,16 @@ ggplot(freq_cum, aes(x=`Sub-Category`, y = cumfreq)) +
 
 ```
 
-The main takeaway from this visualization is the returns for this superstore are spread over several categories instead on a concentrated few sub-categories. Binders and Paper sub categories contribute the most returns of compare to the rest.
+The a takeaway from this visualization is the returns for this superstore are spread over several categories instead of concentrated on a few sub-categories. 
 
 
 # 4.0 Generating a Age-Sex pyramid
 
-In this part of the exercise, a [Age-Sex pyramid](https://en.wikipedia.org/wiki/Population_pyramid) will be generated. Population data of Singapore in 2021 obtain from [Singapore Department of Statistics](https://www.singstat.gov.sg/find-data/search-by-theme?theme=society&type=visualising-data) Website will be used. 
+In this part of the exercise, a [Age-Sex pyramid](https://en.wikipedia.org/wiki/Population_pyramid) will be generated. A Age-Sex pyramid allows the user a quick view of the population distribution among the age groups and gender. Giving a quick overview of population trends. Population data of Singapore in 2021 obtain from [Singapore Department of Statistics](https://www.singstat.gov.sg/find-data/search-by-theme?theme=society&type=visualising-data) Website will be used. 
 
 The data source stores the data, with greater level of detail than needed for a static Age-Sex pyramid chart. Prior to creating the visualization, the data would be aggregate into age-group segments for both genders. 
 
-ggplot does not have a native method to create a Age-Sex pyramid, a workaround would be required. As the Age-Sex pyramid is similar to a bar graph the geom_col method would be used, the population values for one of the genders would be converted to negative values such that it would appear below an axis. The graph is then flipped such that it is similar to a pyramid. The axis values are then overwritten to remove the negative values.
+ggplot does not have a native method to create a Age-Sex pyramid, a workaround would be used. As the Age-Sex pyramid is similar to a bar graph the geom_col method would be used, the population values for one of the genders would be converted to negative values such that it would appear below an axis. The graph is then flipped such that it is similar to a pyramid. The axis values are then overwritten to remove the negative values.
 
 Steps to wrangle the data and create the visualization are listed below.
 
