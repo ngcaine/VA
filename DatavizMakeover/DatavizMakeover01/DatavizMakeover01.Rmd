@@ -112,12 +112,11 @@ This is used to separate data values later in Tableau.
 In the same step Age-Group/Sex column is renamed as Age-Group. At this stage the data is save as an excel file.
 ![](img/GendersRate.png)
 
-4.	Data from the previous set is opened in tableau using tableaus open add option. R
+4.	Data from the previous set is opened in tableau using tableaus open add option. 
+![](img/OpenExcel.png)
 
 
-
-
-equired sheet added to the data flow pane.
+Required sheet drag over into the data flow pane.
 ![](img/AddData.png)
 
 5.	The "Field Names are in first row" option is check to convert first row values to row names.
@@ -129,7 +128,7 @@ equired sheet added to the data flow pane.
 7.	Respective fields were then rename to indicate their values. Pivot Field Names to "Year", and Pivot Field Values to "Labour Force Participation Rate".
 ![](img/RenameRate.png)
 
-7.	Lastly due to N.A. values present in some years, the "Labour Force Participation Rate" data type needs to be change from default character data type to decimal.
+8.	Lastly due to N.A. values present in some years, the "Labour Force Participation Rate" data type needs to be change from default character data type to decimal.
 ![](img/NumberTypeCovert.png)
 
 ## 4.2 Connected dot plot visualization 
