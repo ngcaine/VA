@@ -123,7 +123,7 @@ pop2020_grouped_alt <- pop2000to2020_alt %>%
   ungroup()
 ```
 
-To display the values for male population "below the axis", the population values for all Male age groups is converted to negative values first. Such that when the chart is generated population values for males will be below the axis in a pyramid plot. Axis label is manually overwritten to replace negative values as suggested by found in [this](https://rpubs.com/walkerke/pyramids_ggplot2)  rpubs article 
+To display the values for male population "below the axis", the population values for all Male age groups is converted to negative values first. Such that when the chart is generated population values for males will be below the axis in a pyramid plot. Axis label is manually overwritten to replace negative values as suggested by [this](https://rpubs.com/walkerke/pyramids_ggplot2)  rpubs article 
 
 ```{r generate male numbers edit}
 pop2020_grouped_alt <- pop2020_grouped_alt %>% mutate(Size = case_when(Sex == "Males" ~ 0-n,
@@ -146,9 +146,9 @@ paged_table(pop2020_grouped_alt)
 
 Finally the data is visualized in the following code chuck with the steps listed below:
 
-* The geom_point method is used to chart the data points indicating age group numbers, using x axis to indicate the planning ares, y axis for the number of people in each group, color by age_groups and gender with shapes..
+* The geom_point method is used to chart the data points indicating age group numbers, using x axis to indicate the planning ares, y axis for the number of people in each group, color by age_groups and gender with shapes.
 * the axis label is manually overwritten to replace the negative values.
-* Followed by flipped the coordinates as default Age-Sex pyramid.
+* Followed by flipping the coordinates as per a usual Age-Sex pyramid.
 * A sequential color palette is used to reduce mental load required to interpret the age group legend.
 * Variables required to define the animation were then added using "Time" as the variable to toggle the animation.
 * Labels and theme adjustments were then added for readability.
