@@ -32,9 +32,9 @@ In this take home exercise of two parts, a Pareto chart visualizing the proporti
 Prior to processing the data required packages are loaded. **Tidyverse** will be the main package that used be used to wrangle the data and generate visualizations. **readxl** package is loaded to read superstore data as it is in Microsoft Excel format.
 
 ```{r loading-packages}
-packages = c('tidyverse', 'readxl')
-
-for(p in packages){library
+packages = c('ggstatsplot', 'ggside', 
+             'tidyverse', 'ggdist')
+for (p in packages){
   if(!require(p, character.only = T)){
     install.packages(p)
   }
@@ -44,161 +44,108 @@ for(p in packages){library
 
 # 3.0 Generating a store returns Pareto Chart.
 
-To generate a [Pareto chart](https://en.wikipedia.org/wiki/Pareto_chart) to visualize the number and proportion of returns from each sub-category of orders from a Superstore, the data will have to summarized into the cumulative number of returns over each of the sub-categories. A cumulative percentage of the data will also be calculated to separately generate the line graph.
+
 
 
 ## Loading the data
 
-The data required for this visualization is stored in two separate spreadsheets of the data file. Following readxl read_xls function syntax, the data is read into two separate tibble variables.  
+ 
 
 ```{r loading-Data}
-orders <- read_xls("data/Superstore-2021.xls", sheet = "Orders")
-returns <- read_xls("data/Superstore-2021.xls", sheet = "Returns")
+exam <- read_csv("data/Exam_data.csv")
 ```
 
 ## Data Wrangling
 
-Following a left_join is performed to joined the returns data with the orders data based on 'Order ID' attribute in both tables as stored as joined_tab tibble.
+
 
 ```{r joining-Data}
-joined_tab <- left_join(returns, orders, by = c('Order ID' = 'Order ID'))
+set.seed(1234)
+gghistostats(
+  data = exam,
+  x = ENGLISH,
+  type = "b",
+  test.value = 60,
+  xlab = "English scores"
+)
 ```
 
-Next the number orders returned per sub category is calculated using dpylr group_by method to group the orders by sub-category and summarize method to count the number of returned ordered per sub-category. The results are stored as tibble freq_returned.
 
-```{r summarising Data - bar chart}
-freq_returned <- joined_tab %>% 
-  group_by(`Sub-Category`) %>% 
-  summarise('Returns' = n()) %>% 
-  ungroup()
+```{r}
+ggbetweenstats(
+  data = exam,
+  x = GENDER, 
+  y = MATHS,
+  type="np",
+  messages = FALSE
+)
 ```
 
-The data will be visualized in descending order, counts of returns from the previous step is sorted accordingly using arrange method.
 
-```{r summarising Data - cumulative Chart - 1}
-freq_sorted <- freq_returned %>% 
-  arrange(desc(Returns)) 
 
-#freq_returned$`Sub-Category` <-factor(freq_returned$`Sub-Category`, levels = freq_returned$`Sub-Category`)
+```{r }
+ggbetweenstats(
+  data = exam,
+  x = RACE, 
+  y = ENGLISH,
+  type = "np",
+  mean.ci = TRUE, 
+  pairwise.comparisons = TRUE, 
+  pairwise.display = "s",
+  p.adjust.method = "fdr",
+  messages = FALSE
+)
 ```
 
-Cumulative sum of returns across the sub-categories is calculated to generate the line graph.
+
 
 ```{r summarising Data - cumulative Chart - 2}
-freq_cum <-  freq_sorted %>% 
-  mutate(cumfreq = cumsum(Returns))
+ggscatterstats(
+  data = exam,
+  x = MATHS,
+  y = ENGLISH,
+  marginal = FALSE,
+  )
 ```
 
-The following code chunk the Sub-Category attribute is converted to a factor type variable with order based on the current sorted position in the data table. This is done to preserve the sub category order when visualizing the data otherwise it would be arrange in alphabetical order when using ggplot methods.
+
 
 ```{r summarising Data - cumulative Chart - 3}
-freq_cum$`Sub-Category` <-factor(freq_cum$`Sub-Category`, levels = freq_cum$`Sub-Category`)
+packages = c('readxl', 'report', 'performance', 
+             'parameters', 'see')
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
 ```
 
 ## Data visualization (Pareto Chart)
 
-The data is visualized using ggplot grammar of visualizations methods in below code chunk the layers are added accordingly to the steps in the list below:
-
-* a ggplot object is initialized with the freq_cum table as the data to be used. Since Sub-Category will be used commonly among the following layers it is assign the a-axis aesthetic field.
-* geom_bar layer is added by specifying count of returns on to the y axis. stat="identity" is specified to overwrite geom_bar default aggregation of data. 
-* geom_point layer is added next. In this instance the cumulative count of returns across the sub categories is assigned to y-axis.
-* geom_line layer is added using the cumfreq as the y variable as assign all the data to one group to join the points with a line.
-* geom_hline is added as a reference line to highlight the 80% point of the line chart.
-* Appropriate labels for the title and x axis is added.
-* Secondary axis to read the line features is also added.
-* Various theme adjustment such as changing background to white and lighter grey gridlines. to enhance readability of features
 
 
-```{r generate pareto chart, layout="l-page",  fig.width = 15, fig.asp = 0.618, fig.align='center'}
+```{r generate pareto chart}
 
-ggplot(freq_cum, aes(x=`Sub-Category`, y = cumfreq)) +
-  geom_point(color = "black") +
-  geom_bar(aes(y = Returns), stat="identity", fill = "lightblue", color = "grey") +
-  geom_line(aes(y = cumfreq, group = 1), color = "black") + 
-  geom_hline(yintercept = 0.8*max(freq_cum$cumfreq), color = "black", linetype = "dashed") +
-  ggtitle("Pareto of Returns") +
-  xlab("Sub Categories") +
-  scale_y_continuous(name = "Absolute Frequency", 
-                     breaks = as.integer(seq(0, 1.0, by = 0.1)*max(freq_cum$cumfreq)),
-                     sec.axis = sec_axis(~./max(freq_cum$cumfreq), 
-                                         breaks = seq(0, 100, by = 0.1),
-                                         labels = scales::percent)) +
-  theme(panel.background = element_rect(fill = "white",
-                                      color = "black",
-                                      linetype = "solid"),
-        panel.grid.major = element_line(size = 0.25,
-                                        linetype = 'solid',
-                                        colour = "lightgrey"),
-        panel.grid.minor = element_line(size = 0.10,
-                                        linetype = 'solid',
-                                        colour = "lightgrey"),
-        axis.text = element_text(size = 10),
-        axis.title.y.right = element_text(angle=90))
+car_resale <- read_xls("data/ToyotaCorolla.xls", 
+                       "data")
 
 ```
 
-# 4.0 Generating a Age-Sex pyramid
+```{r}
+model <- lm(Price ~ Age_08_04 + Mfg_Year + KM + 
+              Weight + Guarantee_Period, data = car_resale)
+model
 
-In this part of the exercise, a [Age-Sex pyramid](https://en.wikipedia.org/wiki/Population_pyramid) will be generated. Population data of Singapore in 2021 obtain from [Singapore Department of Statistics](https://www.singstat.gov.sg/find-data/search-by-theme?theme=society&type=visualising-data) Website will be used. 
-
-## Loading Data
-
-The data is saved in csv format, dplyr read_csv method will be used.
-
-```{r loading data-population}
-pop2021 <- read_csv("data/respopagesextod2021.csv")
-```
-## Data Wrangling
-
-Population size for each age group and gender is first summarized using dplyr group_by and summarise methods. 
-
-```{r generate gender cols}
-pop2021_grouped <- pop2021 %>% 
-  group_by(AG, Sex) %>% 
-  summarise(n = sum(Pop)) %>% 
-  ungroup()
-```
-In the following code chunk one of values "5_to_9" in attribute AG is changed to "05_to_9" to allow for ggplot default labels to arrange the data according to age group. If not the values would be placed among the 50s group data.
-
-```{r rename age group}
-pop2021_grouped <- pop2021_grouped %>% mutate(AG = case_when(AG == "5_to_9" ~ "05_to_9",
-                                            TRUE ~ AG))
 ```
 
-By default geom_bar method in ggplot would stack the values of groups if a variable is assigned to the fill aesthetic. To work around this, the population values for all Male age groups is converted to negative values first. Such that when the chart is generated population values for males will be below the axis. Axis label is manually overwritten to replace negative values as suggested by found in [this](https://rpubs.com/walkerke/pyramids_ggplot2)  rpubs article 
+```{r }
+check_collinearity(model)
 
-```{r generate male numbers edit}
-pop2021_grouped <- pop2021_grouped %>% mutate(Pop2 = case_when(Sex == "Males" ~ 0-n,
-                                            TRUE ~ n))
-```
+#from performance to extract the parameter in tibbler form
+check_c <- check_collinearity(model)
 
-## Data visualization (Age-Sex Pyramid)
+#plot result in C
+plot(check_c)
 
-Final the data is visualized in the following code chuck with the steps listed below:
-
-* The geom_bar method is used to chart the grouped data.
-* the axis label is manually overwritten to replace the negative values.
-* Followed by flipped the coordinates as default Age-Sex pyramid.
-* Labels and theme adjustments were then added for readability.
-
-
-```{r generate gender sex pyramid, layout="l-page", fig.width= 15, fig.asp=0.618, fig.align='center'}
-ggplot(pop2021_grouped, aes(x = AG, y = n, fill = Sex)) + 
-  geom_bar(aes(y = Pop2), stat= "identity" ) +
-  scale_y_continuous(breaks = as.integer(seq(-200000, 200000, 25000)),
-                     labels = as.integer(c(seq(200000,0, by = -25000), seq(25000, 200000, by = 25000)))) + 
-  coord_flip() +
-  ylab("Population Numbers") +
-  xlab("Age Group") +
-  ggtitle("Age-Sex Pyramid Singapore 2021") +
-  theme(panel.background = element_rect(fill = "white",
-                                      color = "black",
-                                      linetype = "solid"),
-        panel.grid.major = element_line(size = 0.25,
-                                        linetype = 'solid',
-                                        colour = "lightgrey"),
-        panel.grid.minor = element_line(size = 0.10,
-                                        linetype = 'solid',
-                                        colour = "lightgrey"),
-        axis.text = element_text(size = 10))
 ```

@@ -23,49 +23,80 @@ knitr::opts_chunk$set(
   )
 ```
 
+
+```{r loading-packages}
+packages = c('tidyverse', 'knitr', 'rmarkdown', 'kableExtra')
+
+for(p in packages){library
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
 # 1.0	The original visualization
 ![](Img/graphic_org.png)
-The original visualization is created with data sourced from Ministry of Manpower, Singapore website [(MOM)](https://stats.mom.gov.sg/Pages/LabourForceTimeSeries.aspx). This task is to critique and provide some suggestions this visualization based on clarity and aesthetic framework and to produce an alternative visualization based on suggestions.
+The original visualization is created with data sourced from Ministry of Manpower, Singapore website [(MOM)](https://stats.mom.gov.sg/Pages/LabourForceTimeSeries.aspx). Data used for this is labelled under "Resident Labour Force Participation Rate by age and sex".
 
 
 # 2.	Critiques on Clarity and Aesthetics
 
-From the original graphic, these are some of the issues in terms of clarity and aesthetics identified. The critiques and suggestions are listed as below:
+From the original graphic, these are some of the issues in terms of clarity and aesthetics identified. The critiques and suggestions are listed below:
 
-For the **clarity**:
+In terms of **clarity**:
 
 ```{r}
-critiques <- data.frame(Item = c(1,2,3,4,5,6), 
-                        Critique = c("Brief Chart title - Chart title could be made more informative explaining what the chart is about.",
-                                     "Addreviated Y  Axis label - The label 'Lfpr' may not be clear to every reader what it refers to.",
-                                     "Missing units – Units for the y axis is not indicated, leaving readers to guess what the numbers signigy.",
-                                     "Non-intutive arragment of age-group: Arranging the Age-groups in reverse, requires reader addition effort to interpret the infromation.",
-                                     "Inconsistent ordering of age groups: The order is arranged by the participation rate instead of natural order of age-group, presents an trend that do not exist.",
-                                     "Use of shaded density-Chart: The use a line graph may mislead readers to a trend that does not exist."),
-                        Suggestion = c("Title should be informative. It could state “Singapore Age labour force participation rate for 2015.",
-                                       "The Y axis labels could be state in full such as 'Percentage Participation Rate' or shorten to percentage with units since it could be explain as part of title or caption.",
-                                       "% units should be listed.",
-                                       "Age groups have a natural order and should be displayed in normal ascending order.",
-                                       "Inline with point 4, age-groups should follow natural order instead of participation rate. ",
-                                       "Depending on the intended message the visualization is trying to impart a different design might be used. If intending to show absolute percentage of participation rate then a bar graph could be used or if intending to show summary of changes in each age group then a summary figure should be use to group the age groups.")
-                        )
-library(knitr)
-kable(critiques,align = "cll")
+Critique = c("**Chart title**: The chart title 'Labour force participation rate' is brief and does not give much information regarding what the chart is trying to convey.",
+             "**Addreviated Y  Axis label**: Use of abbreviated Y axis labels 'LFPR' leaves the reader to interpret what is Y axis is referring to.",
+             "**Missing units in Y axis label**: In addition to abbreviated label units of the data is not shown leaving readers to guess the units and what the numbers signify.",
+             "**Inconsistent arragment of age-group**: The visualisation presents the age group according to the their Y values resulting in a inconsistent arrangements of the age groups. The 15 to 19 age group is slotted among the 70 and older age groups. It may be confusing to the reader and readers attention are drawn to the raising pattern.",
+             "**Overlapping Age groups presented**: In the visualisation 3 'over 70s' age groups are presented. '70 to 74', '75 and over' and '70 and over'. Resulting in an overlap of presented data between the 70 to 74, 75 and over with the 70 and over age-groups.",
+             "**Compressed X-Axis for year**: Not immediately visible from the visualisation, the curves of each age group are derived from yearly labour front participation rate values in each age group for a period of 2010 to 2021.")
+
+Suggestion = c(" More insights could be indicated as part of the chart title from findings of the visualisation. For example 'Labour Force participation rates sees increase for most age groups from 2010 to 2021'",
+               "It could be stated in full and be more specific such as 'Age Group Labour participation rate'.",
+               "% could be indicated, allowing readers to know that is it referring to percentage of age-group.",
+               "Instead the natural order of the age group with youngest on the left and oldest on the right should be used. Allowing readers to better orientate to the data on the visualisation.",
+               "The '70 to 74' and '75 and over' age groups could be remove only showing data from the 70 and over age-groups to remove the overlapping data. ",
+               " Compressing the view in such a manner may confuse the reader and some data reduction or summary could be used such that the full year range is indicated instead.")
+
+clarity <- data.frame(Item = c(1,2,3,4,5,6), 
+                        Critique,
+                        Suggestion)
+
+kable(clarity,align = "cll") %>%
+kable_styling(full_width = F) %>%
+column_spec(1, bold = T) %>%
+column_spec(2, width = "30em") %>% 
+column_spec(3, width = "30em")  
+
 ```
-For the **aesthetics**:
+In terms of **aesthetics**:
 
 ```{r}
+
+Critique <-  c("**Unnecessary use of color**: The use of separate colors for each of the age groups may not be necessary given that they are separated by individual column labels. Using of separate colors require the reader to keep track of numerous colors with respect to the age groups.",
+               "**Obstructed Column Labels**: Certain age group labels such as age groups '70 & over' are hidden due to size of column. While column size should be consistent, the labels should also be readiable.",
+             "**Use of shaded area plot**: The use of a shaded area plot results in large unused space under groups that have higher larbour participation rate compare to other age groups.",
+             "**Non-Intuitive age-group arrangement**: Result of arranging the age groups by y-axis values results in age groups mostly arrange from older on the left to younger on the right. Instead should follow the natural order of age groups going from young to old.")
+
+Suggestion = c("Instead if a column label is used then a single colour could be used unless there is a difference then a different color for those specific points could be used to highlight those data points.",
+               "Depending on final graphic, age-groups should be labelled such that the groups are clearly readable.",
+               "While it does the highlight the difference in participation rate between age groups the unused space could be used for annotations to highlight specific insights in the visualization.",
+               "Arrange the age groups by natural order, such that readers could orientate the different data points better.")
+
 aesthetics <- data.frame(Item = c(1,2,3,4),
-                         Critique = c("Unnecessary use of color - With the age groups indicated by a second X axis the label of colors would is not necessary and requires interpretation.",
-                                      "Compressed bottom x-axis - In order to show the full chart, x axis is compressed to single year value obscuring the other years.",
-                                      "Obstructed Column Labels - For certain age group labels are hidden due to size of column. While column size should be consistent, the labels should be clearly display as well.",
-                                      "No annotation to indicate findings from the chart, leaves readers to interpret trends for themselves."),
-                         Suggestion = c("With age groups indicated by separate column labels a single color would be used unless to highlight important groups.",
-                                        "Due to numerous years in the dataset, age-groups could be reduced to demographic groups to reduce the number of levels. After reducing the levels, data could be present as summary general summary statistic of the whole instead of details of every group. The major trend could be shown in another graph as difference between two time periods.",
-                                        "Depending on final graphic, age-groups should be labelled such that the groups are clearly readable.",
-                                        "An caption or annnotation to indicate findings for the chart."))
-library(knitr)
-kable(aesthetics,align = "cll")
+                         Critique,
+                         Suggestion
+                         )
+
+kable(aesthetics,align = "cll") %>%
+kable_styling(full_width = F) %>%
+column_spec(1, bold = T) %>%
+column_spec(2, width = "30em") %>% 
+column_spec(3, width = "30em")  
+
 
 ```
 
@@ -73,214 +104,294 @@ kable(aesthetics,align = "cll")
 
 ## 3.1 Considersations
 
-Based on exploration of the data it is assumed that the density chart is derived from yearly participation rate of each age group with the intention of conveying changes in participation rate of each age group. However, the effect of compressing the x-axis to show the entire chart results in only showing the year as 2015.  Due to large number of groups and years in the chart prohibits the use of a trend line or bar graph to indicate the participation rate for all the years.  Major trends would need to be summarized or level of variables need to be reduced by grouping..
+Based on exploration of the data it is assumed that the density chart is derived from yearly participation rate of each age group. The purpose of the chart is to compare the labour participation rate for each of the age groups as well as show their trends over the years. 
+
+The high number of different groups makes the use of a stack bar chart difficult without grouping of the age groups and it would not be ideal for comparison between the groups.
+
+Using a overlay of lines charts with each line chart representing a age group could be used, however the overlap in labour participation rates for certain age groups especially between ages 25-50 would result in a cluttered portion of the chart that would be difficult to read.
+
+For better comparison ideally the graphics for each age group should be placed side by side.
 
 ## 3.2 Proposed Sektch
 
-From original visualization it seem there is an overall increasing trend in labour force participation rate for all age-groups. Thus showing the difference between two years at either end of the data points should summarize the trend of the original. To revise the visualization to show the major trends a connected dot plot is used to indicate the most recent year and a earlier year's difference in labour participation rate. Accompanying the dot plot is a bar graph show the actual percentage value change between both years for easier reading.
+In keeping with the original visualization without significant changes a line graph with dots is use instead of a shaded area chart to show the year to year changes of participation rate for each age group. From the original visualization it seem there is an overall increasing trend in labour force participation rate for all age-groups. Thus showing the difference between the two years at either end of the data points should summarize the trend of the original. To accompany the line graph a bar chart is generated to show the absolute difference in labour participation rate for each of the age groups and summarize the overall trend of the graphic.
 
 ![](Img/draft.png)
 
 ## 3.2	Advantage of proposed design
 
-The advantages of the new design are as follows:
+The advantages of proposed design:
 
-- Major trends in over the years still visible and reader is able to see the difference between two selected years.
-- Due to large number of groups preferred not to present all data in a line/density plot, instead summarizing the overall trend with a connected dot plot presents major trends with overloading reader with colors and lines.
-- Reduced number of colors on the plot for readers to interpret.
-- The age groups in proposed sketch are arrange by natural order for readers to quickly find data.
-- With age groups presented in the Y-Axis, the labels should not be obscured.
-- Appropriate titles, captions and axis labels allow easier interpretation and show major findings of the chart.
+In terms of **clarity**
 
-# 4.	Data Visualization Process (Dot graph)
+- Use of title and caption spaces of each chart to show insights from the visualisation will give readers a more complete picture of what the graphic is about and trying to convey.
+- Instead of using a full x-axis with years for each of the age-groups dots are used to show the year to year percentage values without need for axis labels, such that the labels would not be obscured and readers are able to interpret the individual years and participation rate from the dots on the chart.
+- Positioning the line graphs side by side would allow readers to compare difference in participation rate between each of the age-groups.
+- Full axis labels with units such at readers are not left to interpret what the axis are about.
+- Age groups are arrange in natural order so that readers could easily orientate the data and make their own comparison.
+- Overlapping data is also removed to reduce confusion with the presented information.
+
+In terms of **aesthetics**
+
+- The used of line graph instead of shaded area graph will reduce non-data ink on chart, using the space to highlight insights from the chart.
+- For age-groups are presented as a single colour to reduce interpretatoin require, and only used to highlight trends on the charts.
+
+# 4.	Data Visualization Process (line graph)
 
 ## 4.1 Data Preparation 
 
-The difficulty in data preparation comes from data source being store in a wide format instead of tidy format for visualization. The original data is saved in excel format and initial tidying of data was done in excel. The original file stores the data as two separate spreadsheets "mrsd_Res_LFPR_1" and "mrsd_Res_LFPR_2". For this visualization data from from "mrsd_Res_LFPR_2" will be used and tidied. As there is missing data in years 1995, 2000 and 2005, the data taken will be from 2006, onwards.
+The data set is stored in a wide format instead and as a excel file. The following steps were taken to wrangle the data data into tidy format with excel. The original file stores the data as two separate spreadsheets "mrsd_Res_LFPR_1" and "mrsd_Res_LFPR_2". For this visualization data from from "mrsd_Res_LFPR_2" will be used.
 
 ![](Img/origData.png)
 
-1. Using excel, delete comments and unused rows in the data set. 
-![](Img/Delete_rows_excel.png)
+To prepare the data for visualisation the following steps were performed.
 
-2.	Based on data notes 2007a refers to data of the year after adjustment. Column data for 2007 is delete and column 2007a is renamed as 2007.
-![](img/2007aSummary.png) 
+```{r}
 
-3.	A column is between the age-group column and data sorted in years.
-In this new column input whether is data is for "Both" genders, "Males", or "Females" as shown in the orange highlighted box, according to major labels highlight in red. This new colmun is labelled as "Gender"
-This is used to separate data values later in Tableau.
-In the same step Age-Group/Sex column is renamed as Age-Group. At this stage the data is save as an excel file.
-![](img/GendersRate.png)
+Steps <-  c("Using excel, delete comments and unused rows in the data set. In this case rows 1, 2, 10, 11, 18, 19, 26 to 32.",
+               "Based on data notes 2007a refers to data of the year 2007 after adjustment. Column data for year 2007 is deleted and column 2007a is renamed as 2007.",
+             "A column is added between the 'Age_Group/Sex' and '1991' column and labelled as 'Genders'. 'Both', 'Males' or 'Females' are keyed into this column according their data label as stated in rows 2, 17 and 32 as highlighted by the red rectangles. 'Boths' for 'Total', 'Males' for 'Males' and 'Females' for 'Females'. This wil be used to separate data values later in Tableau. In the same step Age-Group/Sex column is renamed as Age-Group. At this stage the data is save as an excel file.",
+             "Data from the previous step is opened in tableau using tableau's connect to a file option. Since the file is in excel, 'Microsoft Excel' is selected and the excel file is opened in Tableau.",
+            "The required sheet drag over into the data flow pane, in this case the sheet named 'mrsd_Res_LFPR_2'.",
+            "The 'Field Names are in first row' option is check to convert first row values to row names.",
+            "Next the table is pivoted by to convert the data into long format. This is done by holding down the shift key and while clicking and dragging across all the individual year labelled columns to select them. Then tight clicking the selection and click pivot.",
+            "Respectively generated column names 'pivot field Names' was rename to 'Year' and 'Pivot Field Values' to 'Labour Force Participation Rate'.",
+            "Lastly due to N.A. values present in some years, the 'Labour Force Participation Rate' data type needs to be change from default character data type to decimal by clicking the # icon in the column and selecting number(Decimal)."
+            )
 
-4.	Data from the previous set is opened in tableau using tableaus open add option. 
-![](img/OpenExcel.png)
+Images = c("![](Img/Delete_rows_excel.png)",
+               "![](img/2007aSummary.png) ",
+               "![](img/GendersRate.png).",
+               "![](img/OpenExcel.png)",
+           "![](img/AddData.png)",
+           "![](img/fieldNames-Rate.png)",
+           "![](img/pivot_rate.png)",
+           "![](img/RenameRate.png)",
+           "![](img/NumberTypeCovert.png)"
+           
+           )
 
+aesthetics <- data.frame(Item = c(1,2,3,4,5,6,7,8,9),
+                         Steps,
+                         Images
+                         )
 
-Required sheet drag over into the data flow pane.
-![](img/AddData.png)
-
-5.	The "Field Names are in first row" option is check to convert first row values to row names.
-![](img/fieldNames-Rate.png)
-
-6.	Next the table is pivoted to convert the data into long format.
-![](img/pivot_rate.png)
-
-7.	Respective fields were then rename to indicate their values. Pivot Field Names to "Year", and Pivot Field Values to "Labour Force Participation Rate".
-![](img/RenameRate.png)
-
-8.	Lastly due to N.A. values present in some years, the "Labour Force Participation Rate" data type needs to be change from default character data type to decimal.
-![](img/NumberTypeCovert.png)
-
-## 4.2 Connected dot plot visualization 
-
-The following steps were used to create the connect dot visualization.
-
-1. Using the data from the previous step, a new calculated field is created to filter out participation rate in 1991 and 2021.
-![](Img/connected.png)
-
-2.	Age-Group is placed in columns and Labour Force Participation rate is placed in Rows, it is also converted to a sum dimension to show the actual values.
-![](img/placement.png)
-
-3.	Year is added to filter to filter out years that are not shown in the view. Likewise for gender to show only the data from total instead of separate male and female data.
-![](img/filter.png)
+kable(aesthetics,align = "clc") %>%
+kable_styling(full_width = F) %>%
+column_spec(1, bold = T) %>%
+column_spec(2, width = "30em") %>% 
+column_spec(3, width = "30em")  
 
 
-4.	The default marks is changed from automatic to circle and years added to color to differentiate the years.
-![](img/ciircles.png)
+```
 
-5.	Axis is flipped to show percentage length wise.
-![](img/Flipped.png)
 
-6.	For second "Labour Participation rate is dual axis option is check to collapse both charts together.
-![](img/dual.png)
+## 4.2 Connected line graph visualization 
 
-7.	Overlapping data points 70 & over and hidden by right clicking the data point and selecting "hide".
-![](img/DataHide.png)
+The following steps were used to create the line graph visualization:
 
-8.	Lastly appropriate title, summary caption and axis labels are added by right clicking the respective fields, and selecting "edit"
-![](img/edittitle.png)
-For the title the chart is changed to "Singapore Labour Participation Rate (2021 vs 2009)", font size 15, in bold and using light blue font color.
-A subtext "Overall increase in labour participation rate observed. More workers remain working at older age. Younger workers starting work later."
-![](img/TitleCaption.png)
-For X-axis label is changed to "Age-Group Participation Rate(%)"
-A subtext "Overall increase in labour participation rate observed. More workers remain working at older age. Younger workers starting work later."
-![](img/axislabel.png)
-9. Results shown below.
-![](img/DotPlotFinal.png)
-10. Rename the sheet as "SummaryRate" by right clicking the sheet tab at the bottom of the window.
-![](img/renamesheet.png)
+```{r}
+
+Steps <-  c("Using the data from the previous step, variables 'Age-Group' follow by 'Year' is drag over to the columns shelf. 'Then Labour Force Participation' is dragged over the the rows shelf.",
+               "Labour Force participation rate is converted to a measure by right clicking the pill on in rows shelf. Selecting sum under the measures menu.",
+             "Years pill is then dragged and dropped into the filters tab. A filter menu will pop up and as only data from years 2010 to 2021 will the used, the other years are unchecked. Then click apply and OK.",
+             "Age group pill is then dragged and dropped into the filters tab. Uncheck options '70 to 74', '75 & over', 'Females', 'Males' and 'Totals' to filter out overlapping data created from earlier step.",
+            "Genders is then dragged and dropped into the filters table. Check the option 'both' to remove values from 'Males' and 'Females'.",
+            "The chart is changed from a bar graph to a line chart by selecting 'line' from the Marks drop down menu.",
+            "Dots were added to the line chart by clicking 'Color' in the Marks tab and selecting all to show the points as highlighted in the orange box.",
+            "Y axis labels were changed by right clicking the current axis labels and selecting axis. Axis title is changed to 'Labour Force Participation Rate (%)'.",
+            "The Chart title was change to 'Singapore Labour Force Participation Rate (2010 to 2021)'. Font was  converted to bold and color was changed by right clicking the title area and selecting 'Edit Title'. A subtitle was also added in this step in font 11, black text, 'Singapore's workforce sees increase in labour participation rate from 2010 to 2021 for most age-groups. Only 20-24 age group observed drop in participation rate. '" ,
+            "Annotations were added to highlight certain trends. To do this right click the area under the 20 to 24 age group trend line, and under the annotate menu select area. A textbox would show up and appropiate insight is added.",
+            "To format the annotation box, right click the box and select format. Border was change to grey color with solid line and rounded corners as highlighted in orange.",
+            "Similar annotation was added for the seniors population by right clicking the area under 55 to 59 population and repeating steps 10 and 11 to format the shape and color of the annotation box.",
+            "Similar annotation was added for age-group 30-55 by right clicking the area under 30 to 55 age-groups and repeating steps 10 and 11 to format the shape and color of the annotation box.",
+            "To highlight the decreasing trend in age-group 20 to 24, a set is first created by right clicking Age-Group dimension and selecting set under the create menu. Followed by checking the 20 to 24 group in the pop up menu and clicking okay.",
+            "Drag and drop the 'Age-Group' set to color option as indicated by the orange arrows. Next click on color then 'edit colors'. Select red for 'in' group and blue for 'out'.",
+            "With color used to highlight the downward trend a legend is not require. The automatically generated legend is hidden by clicking the tab in the top right corner of the legend and selecting 'hide card'.",
+            "Lastly the worksheet is renamed as 'Trend' by right clicking the sheet tab at the bottom and renaming it to 'Trend'."
+            )
+
+Images = c("![](img/dotpoint1.png)",
+               "![](img/measures.png) ",
+               "![](img/yearsFilter.png).",
+               "![](img/age-groupfilter.png)",
+           "![](img/genders-filter.png)",
+           "![](img/lines.png)",
+           "![](img/marks.png)",
+           "![](img/yaxis-label.png)",
+           "![](img/Chart1-title.png)",
+           "![](img/Annotation1.png)",
+           "![](img/Annotationformat.png)",
+           "![](img/Annotation2.png)",
+           "![](img/Annotation3.png)",
+           "![](img/sets.png)",
+           "![](img/set-colors.png)",
+           "![](img/hidecard.png)",
+           "![](img/renamesheet.png)"
+           )
+
+aesthetics <- data.frame(Item = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17),
+                         Steps,
+                         Images
+                         )
+
+kable(aesthetics,align = "clc") %>%
+kable_styling(full_width = F) %>%
+column_spec(1, bold = T) %>%
+column_spec(2, width = "30em") %>% 
+column_spec(3, width = "30em")  
+
+
+```
+
+
 
 # 5.	Data Visualization Process (Difference Graph)
 
 ## 5.1 Data Preparation 
 
-The following steps were used to prepare data for a graph to indicate difference between both years.
+The following steps were used to prepare the data for a graph to indicate difference in labour force participation rate between 2010 and 2021. The same from data would be used without pivoting the data in Tableau, the tidied data worksheet from above steps was renamed as "msrd_res_Data_Double" and the excel file was save as a different name.
 
-1. Tided data from above steps was save as a different name with excel.
-2. Copy of data is added into tableau as another data source, using new data source option.
-![](img/seconddata.png)
+```{r}
 
-3. To avoid confusing previous data is renamed as "Chart 1 Data", copy of data to be loaded renamed as "Chart2 Data" by click the data source name and keying the desired name for the data source..
-![](img/DataRename.png)
+Steps <-  c("Copy of data is added into tableau as another data source by clicking the data source icon at the top of the pane as selecting new data source option.",
+            "To avoid confusion, the previously added data is renamed as 'Chart 1 Data', copy of data to be loaded renamed as 'Chart2 Data' by click the data source name and keying the desired name for the data source.",
+             "Required spreadsheet 'msrd_res_Data_Double' is dragged and dropped to the main pane and used as is after loading."
+            )
 
-3.	Required spreadsheet is moved to the main pane and used as is after loading.
-![](img/Chart2Data.png)
+Images = c("![](img/seconddata.png)",
+               "![](img/DataRename.png)",
+               "![](img/Chart2Data.png)"
+           )
+
+aesthetics <- data.frame(Item = c(1,2,3),
+                         Steps,
+                         Images
+                         )
+
+kable(aesthetics,align = "clc") %>%
+kable_styling(full_width = F) %>%
+column_spec(1, bold = T) %>%
+column_spec(2, width = "30em") %>% 
+column_spec(3, width = "30em")  
+
+
+```
+
 
 ## 5.2 Difference Visualization
 
-The following steps were used to create the bar graph to show difference of labour participation rate between the two years.
+The following steps were used to create the bar graph to show difference of labour participation rate between the years 2010 and 2021.
 
-1. Start by adding a new sheet, by clicking the new sheet icon.
-![](Img/newsheet.png)
+```{r}
 
-2. A new Calculated field is created to determine the difference in labour particpation rate between years 2009 and 2021
-![](Img/Difference.png)
+Steps <-  c("Start with adding a new worksheet, by clicking the new sheet icon.",
+            "A new Calculated field is created to determine the difference in labour particpation rate between years 2010 and 2021. This was done by right clicking an empty space in the tables space, and selecting 'Create Calculated Field'. Then adding the formula [2021] - [2010]. ",
+             "The Age-Groups pill is placed in columns and the calculated field 'Difference' is placed in the rows pane.",
+            "Gender is dragged and dropped to the filter pane, 'males' and 'females' are left unchecked only checking 'Both' to keep the totals data.",
+            "Age-Group is dragged and dropped to filters pane, options '70 to 74', '75 & over' and 'Total' are unchecked to remove overlapping data.",
+            "The age groups are then sorted from youngest to oldest age group by right-Clicking age-group and select sort. In the follow on popup menu select sort the rows in descending order.",
+            "Drag and drop a 'Difference' calculated field to colors. To add colors to the plot to indicate positive and negative difference.",
+            "Right click the SUM(Difference) color legend to format the colors. Check the stepped color option and key 2 into number of steps. Next change the colors for negative values by clicking the square represeting negative value colors and selecting light red in the follow on pop up menu. Do the same for positive color square to light blue",
+            "Drag and drop the calculated field 'Difference' over to Label in the 'Marks' tab to indicate calculated difference values.",
+            "Add appropriate title as show in previous section by right clicking the title of the chart. In this case 'Difference in Labour Participation rate (2021 vs 2010)'. A subtitle is also added 'Biggest increase in seen in 65 to 69 age group as older workers remain in work force, while drop in 20 to 24 group as younger workers join workforce later.'",
+            "Add Y-Axis Labels 'Percentage Point Difference' by right clicking the y-axis labels and editing the Title field.",
+            "Rename the worksheet to 'Difference' by right clicking the bottom worksheet tab and selecting rename."
+            )
 
-3.	Age-Group is placed in rows and the calculated field "Difference" is placed in the main pane.
-![](img/initial.png)
+Images = c("![](Img/newsheet.png)",
+               "![](Img/Difference.png)",
+               "![](img/initial.png)",
+               "![](img/gender.png)",
+           "![](img/agegroup.png)",
+           "![](img/sort.png)",
+           "![](img/colors.png)",
+           "![](img/diverge.png)",
+           "![](img/labels.png)",
+           "![](img/chart2data-caption.png)",
+           "![](img/yaxis-label2.png)",
+           "![](img/renameDifference.png)"
+           )
 
-3.	gender is added to the filter pane filter out "males" and "females" data keeping only total "Both"
-![](img/gender.png)
+aesthetics <- data.frame(Item = c(1,2,3,4,5,6,7,8,9,10,11,12),
+                         Steps,
+                         Images
+                         )
 
-4.	Age-Group is added to filters pane to filter out overlap data points "70 & Over" and "Total"
-![](img/agegroup.png)
+kable(aesthetics,align = "clc") %>%
+kable_styling(full_width = F) %>%
+column_spec(1, bold = T) %>%
+column_spec(2, width = "30em") %>% 
+column_spec(3, width = "30em")  
 
 
-4.	The "Difference calculated field is moved to the Columns shelf.
-![](img/bar.png)
-
-5.	Right-Click age-group and select sort to sort the rows in descending order.
-![](img/sort.png)
-
-6.	Move the a "Difference" calculated field to colors.
-![](img/colors.png)
-
-7.	Right click the SUM(Difference) color legend to format the colors as two stepped color with center at 0. Change the colors to show red for negative values and blue for positive.
-![](img/diverge.png)
-
-8.  Move calculated field "Difference" to Label to indicate calculated difference values.
-
-9.  Add appropriate title as show in previous section. In this case "Difference in Labour Participation rate (2021 vs 2006)". Similarly a sum title is added "Biggest increase in seen in 65 to 69 age group as older workers remain in work force, while drop in 20 to 24 group as younger workers join workforce later.."
-
-9.  Add X-Axis Labels "Difference in percentage point".
-
-10. Make adjustments to show all labels.
-![](img/final.png)
-
-11. Rename the sheet as difference.
-
-# 5.	Data Visualization Process (Difference Graph)
-
-## 5.1 Data Preparation 
-
-The following steps were used to prepare data for a graph to indicate difference between both years.
-
-1. Tided data from above steps was save as a different name with excel.
-2. Copy of data is added into tableau as another data source, using new data source option.
-![](img/seconddata.png)
-
-3. To avoid confusing previous data is renamed as "Chart 1 Data", copy of data to be loaded renamed as "Chart2 Data" by click the data source name and keying the desired name for the data source..
-![](img/DataRename.png)
-
-3.	Required spreadsheet is moved to the main pane and used as is after loading.
-![](img/Chart2Data.png)
+```
 
 ## 6.0 Dashboard both graphics
 
-To put both graphics together a dashboard is used.
-
-1. Start a new dashboard by clicking add dashboard icon.
-![](Img/dashboardadd.png)
-
-2. Drag and drop the summaryRate worksheet first, followed by dragging and dropping the Difference worksheet below it.
-![](Img/Dashboard2.png)
-
-3.	Drag a "Blank" element to the right of "Difference" worksheet and adjust the size of such at it is aligned with SummaryRate worksheet.
-![](img/blankspace.png)
-
-3.	Check the "Dashboard" title option to show a dashboard title. 
-![](img/dashboardtitle.png)
-
-4. Format title to have a dark grey background, with bold font size 16 white text and add "Singapore sees increase in labour force participation rate in 2021 compared to 2006"
-
-
-5.	Right click within the bottom sheet without any feature highlight to bring up the features menu. Check "caption" to add a caption at the bottom of lower worksheet indicating source of data. 
-![](img/caption2.png)
-
-5.	Finally hide both "summaryRate" and "Difference" worksheets before publishing the workbook.
-
-# 6.	Main Observations
-
+In the following steps both graphics are assembled together with the use of a dashboard.
 
 ```{r}
-aesthetics <- data.frame(Item = c(1,2,3),
+
+Steps <-  c("Start a new dashboard by clicking add dashboard icon at the bottom of window highlighted in orange.",
+            "Drag and drop the 'Trend' worksheet over to the main pane first, followed by dragging and dropping the 'Difference' worksheet below it.",
+            "Check the 'Dashboard' title option to show a dashboard title. ",
+            "Format title to have a dark grey background by right clicking the title and selecting the format title option. Under shading change the color to grey to highlight the title. ",
+            "Right click the dashboard title and edit the title to be with bold font size 16 white text and add 'Singapore sees increase in labour force participation rate in 2021 from 2006'",
+            "Right click within the bottom sheet without any feature highlight to bring up the features menu. Check 'caption' to add a caption at the bottom of lower worksheet. Weblink to the data source is added to the caption as a reference.",
+            "Finally hide both 'Trend' and 'Difference' worksheets before publishing the workbook."
+            )
+
+Images = c("![](Img/dashboardadd.png)",
+           "![](Img/Dashboard2.png)",
+           "![](img/dashboardtitle.png)",
+           "![](img/dashboardTitleColor.png)",
+           "![](img/dashboardTitleText.png)",
+           "![](img/caption2.png)",
+           "![](img/hide.png)"
+           
+           )
+
+aesthetics <- data.frame(Item = c(1,2,3,4,5,6,7),
+                         Steps,
+                         Images
+                         )
+
+kable(aesthetics,align = "clc") %>%
+kable_styling(full_width = F) %>%
+column_spec(1, bold = T) %>%
+column_spec(2, width = "30em") %>% 
+column_spec(3, width = "30em")  
+
+
+```
+# 6. Final Visualization
+
+A screenshot of the final visualization is shown below:
+
+![](img/Dataviz1.png)
+
+Full visualization could be found on tableau public [here](https://public.tableau.com/app/profile/caine.ng/viz/DatavizMakeover1-LFPR/Dashboard1)
+
+# 7.	Main Observations
+
+Listed below are some of the observations drawn from the made over graphic:
+
+```{r}
+aesthetics <- data.frame(Item = c(1,2,3,4),
                          Obervation = c("Overall Increase in participation rate.",
                                       "Biggest increase seen in Age-Groups 65 to 69.",
-                                      "Drop in workforce participation in age-group 20 to 24."),
-                         Takeaway = c("Comparing the labour participation rate between 2021 and 2006 and overall increase in most age-groups can be seen. Indicating that more are remaining in the workforce as years progresses.",
-                                        "The biggest increase in labour force participation rate is seen in 65-69 age group by a difference of 25.6 percentage points. Indicating that more are choosing to retire later compared to workers in 2006.",
-                                        "The only group to see a drop in labour force participation is the 20 to 24 age group. It could signify a choice to more youths starting work later due to process of optaining higher education."))
+                                      "Drop in workforce participation in age-group 20 to 24.",
+                                      "Sharp drop in labour participation rate for youths 15 to 24 in 2020."),
+                         Takeaway = c("Comparing the labour participation rate between 2010 to 2021 majority of the age groups show an increase in particition rate over the years. Indicating that more individuals remain work even to later years, which could possibly be attributed to raising cost of living or changes in family roles to support both elders and childern.",
+                                         "The biggest increase in labour force participation rate is seen in 65-69 age group by a difference of 20 percentage points between 2021 and 2010. This is likely driven by changes in employment policy over the years to allow for senior workers to remain in the work force. Increase in recent years could also be related to increase in demand for workers in roles such as security and pandamic related services leading to seniors returning to the work force.",
+                                         "From 2010 to 2021, the only age group to see a drop in labour participation rate is the 20 to 24 group. Seeing a drop by -3.4 percentage points. This is likely driven by changes in education demands and more youths seeking degrees before starting their first job.",
+                                      "Both this age-groups saw a sharp drop in labour participation rate in 2020. This is likely driven by Covid-19 pandemic restrictions on F&B service which are typically staffed by part-time workers. It could also be driven by difficult of fresh graduates seeking employement during this period, while companies are cutting cost. However the overall participation rate increase up in 2021 as youths finding alternate employment opportunities."))
 library(knitr)
-kable(aesthetics,align = "cll")
+kable(aesthetics,align = "cll")%>%
+kable_styling(full_width = F) %>%
+column_spec(1, bold = T) %>%
+column_spec(2, width = "20em") %>% 
+column_spec(3, width = "40em") 
 
 ```
