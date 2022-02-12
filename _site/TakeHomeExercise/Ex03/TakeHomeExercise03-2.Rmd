@@ -1,0 +1,145 @@
+---
+title: "Take-Home Exercise 3"
+description: |
+  Placeholder for week 3
+author:
+  - name: Caine Ng 
+    url: https://www.linkedin.com/in/caine-ng-069a5273/
+    affiliation: SMU - MITB
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: "`r Sys.Date()`"
+output: 
+   distill::distill_article:
+     toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.retina=3,
+  echo = TRUE,
+  eval = TRUE,
+  warning = FALSE,
+  message = FALSE
+  )
+```
+
+
+
+```{r loading-packages}
+packages = c('ggstatsplot', 'ggside', 
+             'tidyverse', 'ggdist')
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+# 3.0 Generating a store returns Pareto Chart.
+
+
+
+
+## Loading the data
+
+ 
+
+```{r loading-Data}
+exam <- read_csv("data/Exam_data.csv")
+```
+
+## Data Wrangling
+
+
+
+```{r joining-Data}
+set.seed(1234)
+gghistostats(
+  data = exam,
+  x = ENGLISH,
+  type = "b",
+  test.value = 60,
+  xlab = "English scores"
+)
+```
+
+
+```{r}
+ggbetweenstats(
+  data = exam,
+  x = GENDER, 
+  y = MATHS,
+  type="np",
+  messages = FALSE
+)
+```
+
+
+
+```{r }
+ggbetweenstats(
+  data = exam,
+  x = RACE, 
+  y = ENGLISH,
+  type = "np",
+  mean.ci = TRUE, 
+  pairwise.comparisons = TRUE, 
+  pairwise.display = "s",
+  p.adjust.method = "fdr",
+  messages = FALSE
+)
+```
+
+
+
+```{r summarising Data - cumulative Chart - 2}
+ggscatterstats(
+  data = exam,
+  x = MATHS,
+  y = ENGLISH,
+  marginal = FALSE,
+  )
+```
+
+
+
+```{r summarising Data - cumulative Chart - 3}
+packages = c('readxl', 'report', 'performance', 
+             'parameters', 'see')
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+## Data visualization (Pareto Chart)
+
+
+
+```{r generate pareto chart}
+
+car_resale <- read_xls("data/ToyotaCorolla.xls", 
+                       "data")
+
+```
+
+```{r}
+model <- lm(Price ~ Age_08_04 + Mfg_Year + KM + 
+              Weight + Guarantee_Period, data = car_resale)
+model
+
+```
+
+```{r }
+check_collinearity(model)
+
+#from performance to extract the parameter in tibbler form
+check_c <- check_collinearity(model)
+
+#plot result in C
+plot(check_c)
+
+```

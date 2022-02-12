@@ -56,10 +56,10 @@ Critique = c("**Chart title**: The chart title 'Labour force participation rate'
 
 Suggestion = c(" More insights could be indicated as part of the chart title from findings of the visualisation. For example 'Labour Force participation rates sees increase for most age groups from 2010 to 2021'",
                "It could be stated in full and be more specific such as 'Age Group Labour participation rate'.",
-               "% could be indicated, allowing readers to know that is it referring to percentage of age-group.",
+               "% could be indicated, allowing readers to know that it is in percentage of age-group.",
                "Instead the natural order of the age group with youngest on the left and oldest on the right should be used. Allowing readers to better orientate to the data on the visualisation.",
                "The '70 to 74' and '75 and over' age groups could be remove only showing data from the 70 and over age-groups to remove the overlapping data. ",
-               " Compressing the view in such a manner may confuse the reader and some data reduction or summary could be used such that the full year range is indicated instead.")
+               " Compressing the view in such a manner may confuse the reader and some data reduction or summary could be used such that the full year range is indicated instead. Alternatively the year range could be state in the title. Use of dot points on a line chart will be explored.")
 
 clarity <- data.frame(Item = c(1,2,3,4,5,6), 
                         Critique,
@@ -125,7 +125,7 @@ The advantages of proposed design:
 In terms of **clarity**
 
 - Use of title and caption spaces of each chart to show insights from the visualisation will give readers a more complete picture of what the graphic is about and trying to convey.
-- Instead of using a full x-axis with years for each of the age-groups dots are used to show the year to year percentage values without need for axis labels, such that the labels would not be obscured and readers are able to interpret the individual years and participation rate from the dots on the chart.
+- Instead of using a full x-axis with years for each of the age-groups dots are used to show the year to year percentage values without need for axis labels, such that the labels would not be obscured and readers are able to interpret the individual years and participation rate from the dots on the chart. The year range will also be indicated in the title such that is clear to the reader.
 - Positioning the line graphs side by side would allow readers to compare difference in participation rate between each of the age-groups.
 - Full axis labels with units such at readers are not left to interpret what the axis are about.
 - Age groups are arrange in natural order so that readers could easily orientate the data and make their own comparison.
@@ -134,7 +134,7 @@ In terms of **clarity**
 In terms of **aesthetics**
 
 - The used of line graph instead of shaded area graph will reduce non-data ink on chart, using the space to highlight insights from the chart.
-- For age-groups are presented as a single colour to reduce interpretatoin require, and only used to highlight trends on the charts.
+- For age-groups are presented as a single colour to reduce data ink, and color is only used to highlight trends on the charts.
 
 # 4.	Data Visualization Process (line graph)
 
@@ -154,7 +154,7 @@ Steps <-  c("Using excel, delete comments and unused rows in the data set. In th
              "Data from the previous step is opened in tableau using tableau's connect to a file option. Since the file is in excel, 'Microsoft Excel' is selected and the excel file is opened in Tableau.",
             "The required sheet drag over into the data flow pane, in this case the sheet named 'mrsd_Res_LFPR_2'.",
             "The 'Field Names are in first row' option is check to convert first row values to row names.",
-            "Next the table is pivoted by to convert the data into long format. This is done by holding down the shift key and while clicking and dragging across all the individual year labelled columns to select them. Then tight clicking the selection and click pivot.",
+            "Next the table is pivoted by to convert the data into long format. This is done by holding down the shift key and while clicking and dragging across all the individual year labelled columns to select them. Then right clicking the selection and click pivot.",
             "Respectively generated column names 'pivot field Names' was rename to 'Year' and 'Pivot Field Values' to 'Labour Force Participation Rate'.",
             "Lastly due to N.A. values present in some years, the 'Labour Force Participation Rate' data type needs to be change from default character data type to decimal by clicking the # icon in the column and selecting number(Decimal)."
             )
@@ -250,11 +250,11 @@ column_spec(3, width = "30em")
 
 ## 5.1 Data Preparation 
 
-The following steps were used to prepare the data for a graph to indicate difference in labour force participation rate between 2010 and 2021. The same from data would be used without pivoting the data in Tableau, the tidied data worksheet from above steps was renamed as "msrd_res_Data_Double" and the excel file was save as a different name.
+The following steps were used to prepare the data for a graph to indicate difference in labour force participation rate between 2010 and 2021. The same data would be used without pivoting the data in Tableau, the tidied data worksheet from above steps was renamed as "msrd_res_Data_Double" and the excel file was save as a separate file with a different name.
 
 ```{r}
 
-Steps <-  c("Copy of data is added into tableau as another data source by clicking the data source icon at the top of the pane as selecting new data source option.",
+Steps <-  c("Copy of data is added into tableau as another data source by clicking the data source icon at the top of the pane and select the 'new data source' option.",
             "To avoid confusion, the previously added data is renamed as 'Chart 1 Data', copy of data to be loaded renamed as 'Chart2 Data' by click the data source name and keying the desired name for the data source.",
              "Required spreadsheet 'msrd_res_Data_Double' is dragged and dropped to the main pane and used as is after loading."
             )
@@ -291,10 +291,10 @@ Steps <-  c("Start with adding a new worksheet, by clicking the new sheet icon."
             "Gender is dragged and dropped to the filter pane, 'males' and 'females' are left unchecked only checking 'Both' to keep the totals data.",
             "Age-Group is dragged and dropped to filters pane, options '70 to 74', '75 & over' and 'Total' are unchecked to remove overlapping data.",
             "The age groups are then sorted from youngest to oldest age group by right-Clicking age-group and select sort. In the follow on popup menu select sort the rows in descending order.",
-            "Drag and drop a 'Difference' calculated field to colors. To add colors to the plot to indicate positive and negative difference.",
+            "Drag and drop a 'Difference' calculated field to colors. To add colors to the plot to indicating positive and negative values.",
             "Right click the SUM(Difference) color legend to format the colors. Check the stepped color option and key 2 into number of steps. Next change the colors for negative values by clicking the square represeting negative value colors and selecting light red in the follow on pop up menu. Do the same for positive color square to light blue",
             "Drag and drop the calculated field 'Difference' over to Label in the 'Marks' tab to indicate calculated difference values.",
-            "Add appropriate title as show in previous section by right clicking the title of the chart. In this case 'Difference in Labour Participation rate (2021 vs 2010)'. A subtitle is also added 'Biggest increase in seen in 65 to 69 age group as older workers remain in work force, while drop in 20 to 24 group as younger workers join workforce later.'",
+            "Add appropriate title by right clicking the title of the chart. In this case 'Difference in Labour Participation rate (2021 vs 2010)'. A subtitle is also added 'Biggest increase in seen in 65 to 69 age group as older workers remain in work force, while drop in 20 to 24 group as younger workers join workforce later.'",
             "Add Y-Axis Labels 'Percentage Point Difference' by right clicking the y-axis labels and editing the Title field.",
             "Rename the worksheet to 'Difference' by right clicking the bottom worksheet tab and selecting rename."
             )
@@ -339,7 +339,7 @@ Steps <-  c("Start a new dashboard by clicking add dashboard icon at the bottom 
             "Format title to have a dark grey background by right clicking the title and selecting the format title option. Under shading change the color to grey to highlight the title. ",
             "Right click the dashboard title and edit the title to be with bold font size 16 white text and add 'Singapore sees increase in labour force participation rate in 2021 from 2006'",
             "Right click within the bottom sheet without any feature highlight to bring up the features menu. Check 'caption' to add a caption at the bottom of lower worksheet. Weblink to the data source is added to the caption as a reference.",
-            "Finally hide both 'Trend' and 'Difference' worksheets before publishing the workbook."
+            "Finally hide both 'Trend' and 'Difference' worksheets before publishing the workbook by right clicking the respective worksheet names and clicking hide."
             )
 
 Images = c("![](Img/dashboardadd.png)",
@@ -383,10 +383,10 @@ aesthetics <- data.frame(Item = c(1,2,3,4),
                                       "Biggest increase seen in Age-Groups 65 to 69.",
                                       "Drop in workforce participation in age-group 20 to 24.",
                                       "Sharp drop in labour participation rate for youths 15 to 24 in 2020."),
-                         Takeaway = c("Comparing the labour participation rate between 2010 to 2021 majority of the age groups show an increase in particition rate over the years. Indicating that more individuals remain work even to later years, which could possibly be attributed to raising cost of living or changes in family roles to support both elders and childern.",
+                         Takeaway = c("Comparing the labour participation rate between 2010 to 2021 majority of the age groups show an increase in particition rate over the years. Indicating that more individuals remain work even to later years, which could possibly be attributed to raising cost of living or changes in family roles to support both elders and childern. The working adult age groups of between ages 25 to 54 has increased by 4.4percent to 9.4percent.",
                                          "The biggest increase in labour force participation rate is seen in 65-69 age group by a difference of 20 percentage points between 2021 and 2010. This is likely driven by changes in employment policy over the years to allow for senior workers to remain in the work force. Increase in recent years could also be related to increase in demand for workers in roles such as security and pandamic related services leading to seniors returning to the work force.",
-                                         "From 2010 to 2021, the only age group to see a drop in labour participation rate is the 20 to 24 group. Seeing a drop by -3.4 percentage points. This is likely driven by changes in education demands and more youths seeking degrees before starting their first job.",
-                                      "Both this age-groups saw a sharp drop in labour participation rate in 2020. This is likely driven by Covid-19 pandemic restrictions on F&B service which are typically staffed by part-time workers. It could also be driven by difficult of fresh graduates seeking employement during this period, while companies are cutting cost. However the overall participation rate increase up in 2021 as youths finding alternate employment opportunities."))
+                                         "From 2010 to 2021, the only age group to see a drop in labour participation rate is the 20 to 24 group. Indicated by a drop of -3.4 percentage points. This is likely driven by changes in education demands and more youths seeking degrees before starting their first job.",
+                                      "Both age-groups (15 to 19, 20 to 24) saw a drop in labour participation rate in 2020. This drop was more severe for the 20-24 age group from 61% to 56%. This is likely driven by Covid-19 pandemic restrictions on F&B service which are typically staffed by young part-time workers. It could also be driven by difficult of fresh graduates seeking employement during this period, as companies are cutting cost. However the overall participation rate increase up in 2021 as youths finding alternate employment opportunities."))
 library(knitr)
 kable(aesthetics,align = "cll")%>%
 kable_styling(full_width = F) %>%
