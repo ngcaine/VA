@@ -59,7 +59,7 @@ Suggestion = c(" More insights could be indicated as part of the chart title fro
                "% could be indicated, allowing readers to know that it is in percentage of age-group.",
                "Instead the natural order of the age group with youngest on the left and oldest on the right should be used. Allowing readers to better orientate to the data on the visualisation.",
                "The '70 to 74' and '75 and over' age groups could be remove only showing data from the 70 and over age-groups to remove the overlapping data. ",
-               " Compressing the view in such a manner may confuse the reader and some data reduction or summary could be used such that the full year range is indicated instead. Alternatively the year range could be state in the title. Use of dot points on a line chart will be explored.")
+               " Compressing the view in such a manner may confuse the reader and some data reduction or summary could be used such that the full year range is indicated instead. Alternatively the year range could be stated in the title and the use of dot points on a line chart to represent the years will be explored.")
 
 clarity <- data.frame(Item = c(1,2,3,4,5,6), 
                         Critique,
@@ -79,7 +79,7 @@ In terms of **aesthetics**:
 Critique <-  c("**Unnecessary use of color**: The use of separate colors for each of the age groups may not be necessary given that they are separated by individual column labels. Using of separate colors require the reader to keep track of numerous colors with respect to the age groups.",
                "**Obstructed Column Labels**: Certain age group labels such as age groups '70 & over' are hidden due to size of column. While column size should be consistent, the labels should also be readiable.",
              "**Use of shaded area plot**: The use of a shaded area plot results in large unused space under groups that have higher larbour participation rate compare to other age groups.",
-             "**Non-Intuitive age-group arrangement**: Result of arranging the age groups by y-axis values results in age groups mostly arrange from older on the left to younger on the right. Instead should follow the natural order of age groups going from young to old.")
+             "**Non-Intuitive age-group arrangement**: Result of arranging the age groups by y-axis values results in age groups mostly arrange from older on the left to younger on the right. Instead it should follow the natural order of age groups going from young to old.")
 
 Suggestion = c("Instead if a column label is used then a single colour could be used unless there is a difference then a different color for those specific points could be used to highlight those data points.",
                "Depending on final graphic, age-groups should be labelled such that the groups are clearly readable.",
@@ -125,10 +125,10 @@ The advantages of proposed design:
 In terms of **clarity**
 
 - Use of title and caption spaces of each chart to show insights from the visualisation will give readers a more complete picture of what the graphic is about and trying to convey.
-- Instead of using a full x-axis with years for each of the age-groups dots are used to show the year to year percentage values without need for axis labels, such that the labels would not be obscured and readers are able to interpret the individual years and participation rate from the dots on the chart. The year range will also be indicated in the title such that is clear to the reader.
+- Instead of using a full x-axis with years for each of the age-groups dots are used to show the year to year percentage values without need for axis labels, such that obscured labels would not be shown with the chart and readers are able to interpret the individual years and participation rate from the dots on the chart. The year range will also be indicated in the title such that it is clear to the reader.
 - Positioning the line graphs side by side would allow readers to compare difference in participation rate between each of the age-groups.
-- Full axis labels with units such at readers are not left to interpret what the axis are about.
-- Age groups are arrange in natural order so that readers could easily orientate the data and make their own comparison.
+- Full axis labels with units such that readers are not left to interpret what the axis are about.
+- Age groups are arranged in natural order so that readers could easily orientate the data and make their own comparison.
 - Overlapping data is also removed to reduce confusion with the presented information.
 
 In terms of **aesthetics**
@@ -179,8 +179,8 @@ aesthetics <- data.frame(Item = c(1,2,3,4,5,6,7,8,9),
 kable(aesthetics,align = "clc") %>%
 kable_styling(full_width = F) %>%
 column_spec(1, bold = T) %>%
-column_spec(2, width = "30em") %>% 
-column_spec(3, width = "30em")  
+column_spec(2, width = "20em") %>% 
+column_spec(3, width = "40em")  
 
 
 ```
@@ -202,7 +202,7 @@ Steps <-  c("Using the data from the previous step, variables 'Age-Group' follow
             "Y axis labels were changed by right clicking the current axis labels and selecting axis. Axis title is changed to 'Labour Force Participation Rate (%)'.",
             "The Chart title was change to 'Singapore Labour Force Participation Rate (2010 to 2021)'. Font was  converted to bold and color was changed by right clicking the title area and selecting 'Edit Title'. A subtitle was also added in this step in font 11, black text, 'Singapore's workforce sees increase in labour participation rate from 2010 to 2021 for most age-groups. Only 20-24 age group observed drop in participation rate. '" ,
             "Annotations were added to highlight certain trends. To do this right click the area under the 20 to 24 age group trend line, and under the annotate menu select area. A textbox would show up and appropiate insight is added.",
-            "To format the annotation box, right click the box and select format. Border was change to grey color with solid line and rounded corners as highlighted in orange.",
+            "To format the annotation box, right click the box and select format. Border was change to grey color with solid line and rounded corners as highlighted in orange rectangle.",
             "Similar annotation was added for the seniors population by right clicking the area under 55 to 59 population and repeating steps 10 and 11 to format the shape and color of the annotation box.",
             "Similar annotation was added for age-group 30-55 by right clicking the area under 30 to 55 age-groups and repeating steps 10 and 11 to format the shape and color of the annotation box.",
             "To highlight the decreasing trend in age-group 20 to 24, a set is first created by right clicking Age-Group dimension and selecting set under the create menu. Followed by checking the 20 to 24 group in the pop up menu and clicking okay.",
@@ -238,8 +238,8 @@ aesthetics <- data.frame(Item = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17),
 kable(aesthetics,align = "clc") %>%
 kable_styling(full_width = F) %>%
 column_spec(1, bold = T) %>%
-column_spec(2, width = "30em") %>% 
-column_spec(3, width = "30em")  
+column_spec(2, width = "20em") %>% 
+column_spec(3, width = "40em")  
 
 
 ```
@@ -272,8 +272,8 @@ aesthetics <- data.frame(Item = c(1,2,3),
 kable(aesthetics,align = "clc") %>%
 kable_styling(full_width = F) %>%
 column_spec(1, bold = T) %>%
-column_spec(2, width = "30em") %>% 
-column_spec(3, width = "30em")  
+column_spec(2, width = "20em") %>% 
+column_spec(3, width = "40em")  
 
 
 ```
@@ -291,7 +291,7 @@ Steps <-  c("Start with adding a new worksheet, by clicking the new sheet icon."
             "Gender is dragged and dropped to the filter pane, 'males' and 'females' are left unchecked only checking 'Both' to keep the totals data.",
             "Age-Group is dragged and dropped to filters pane, options '70 to 74', '75 & over' and 'Total' are unchecked to remove overlapping data.",
             "The age groups are then sorted from youngest to oldest age group by right-Clicking age-group and select sort. In the follow on popup menu select sort the rows in descending order.",
-            "Drag and drop a 'Difference' calculated field to colors. To add colors to the plot to indicating positive and negative values.",
+            "Drag and drop a 'Difference' calculated field to colors. To add colors to the plot to highlight positive and negative values.",
             "Right click the SUM(Difference) color legend to format the colors. Check the stepped color option and key 2 into number of steps. Next change the colors for negative values by clicking the square represeting negative value colors and selecting light red in the follow on pop up menu. Do the same for positive color square to light blue",
             "Drag and drop the calculated field 'Difference' over to Label in the 'Marks' tab to indicate calculated difference values.",
             "Add appropriate title by right clicking the title of the chart. In this case 'Difference in Labour Participation rate (2021 vs 2010)'. A subtitle is also added 'Biggest increase in seen in 65 to 69 age group as older workers remain in work force, while drop in 20 to 24 group as younger workers join workforce later.'",
@@ -321,8 +321,8 @@ aesthetics <- data.frame(Item = c(1,2,3,4,5,6,7,8,9,10,11,12),
 kable(aesthetics,align = "clc") %>%
 kable_styling(full_width = F) %>%
 column_spec(1, bold = T) %>%
-column_spec(2, width = "30em") %>% 
-column_spec(3, width = "30em")  
+column_spec(2, width = "20em") %>% 
+column_spec(3, width = "40em")  
 
 
 ```
@@ -360,8 +360,8 @@ aesthetics <- data.frame(Item = c(1,2,3,4,5,6,7),
 kable(aesthetics,align = "clc") %>%
 kable_styling(full_width = F) %>%
 column_spec(1, bold = T) %>%
-column_spec(2, width = "30em") %>% 
-column_spec(3, width = "30em")  
+column_spec(2, width = "20em") %>% 
+column_spec(3, width = "40em")  
 
 
 ```
