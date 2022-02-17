@@ -25,27 +25,27 @@ knitr::opts_chunk$set(
 
 # 1.0 Introduction
 
-In this take home exercise the task will be to create a data visualisation to segment Starbuck drinks menu in the 'kids and other' category by their nutrition indicators.
+In this take home exercise the task will be to create a data visualization to segment Starbucks drinks menu in the 'kids and other' category by their nutrition indicators.
 
 # 2.0 Challenges and considerations
 
-The challenge of this exercise is to show the numerous attributes that represent the nutritional values in a manner that is understandable and could be readily used for exploring the segments.
+The challenge of this exercise is to show the numerous attributes that represent the nutritional values in a manner that is understandable and could be readily used for exploring the different segments.
 
 * Given the numerous nutrition categories in the data set, a heat map would be explored to show the different levels for each attribute. 
-* All the nutritional info are represented by increasing numbers for greater amounts sequential colours could be used to show the relative amounts in different drinks.
-* The intention of segmenting the drinks also make the use of heatmap with dendrogram would be suitable in this application.
-* From data exploration, the menu in the kids drinks and other category consist of a base drink with combinations of different size, kind of milk and kind of whipped cream. Thus this attributes could be concatenated to fully describe the drink. 
+* All the nutritional info are represented by increasing numbers for greater amounts thus sequential colours could be used to show the relative amounts in different drinks.
+* The intention of segmenting the drinks would make the use of heatmap with dendrogram suitable for this application.
+* From data exploration, the menu in the kids drinks and other category consist of a base drink with combinations of different size, kind of milk and kind of whipped cream. Thus this attributes could be concatenated together to fully describe the drink. 
 * The portion (fl oz) variable corresponds with drink size. The correlation between portion with other nutritional information will be explored. 
-* With size of drink contributing to more of each nutritional component, a specific size of drink could be used across all the drinks. In this way the number of combinations shown on the plot will be reduced.
+* Based on previous point to simplify the graph, a specific size of drink could be used across all the drinks. In this way the number of combinations shown on the plot will be reduced.
 * Also during data exploration one entry of the drink 'Vanilla Creme' seem to be mislabeled as its nutritional values do not correspond with other similar drinks. This row of data is deleted from the data set before visualization. 
 
 # 3.0 Proposed solution and Sketch
 
-The propose solution would be a heat map with each rows indicating the each of the drink 
+The propose solution would be a heat map with each row indicating the each of the drinks in the menu and respective nutritional indicators as the columns. Using heatmaply native hierarchical clustering function, the drinks would be segment by their nutritional values. 
 
 ## Proposed Sketech.
 
-
+![](img/Sketch.png)
 
 # 4.0 Loading Required packages
 
@@ -54,8 +54,8 @@ For this task following r packages are loaded:
    1. **tidyverse**: For loading and wrangling of data.
    2. **corrplot**: Used to generate the correlogram between variables.
    3. **seriation**: Used to arrange the rows of data optimally after clustering.
-   4. **heatmaply**: Is loaded generate the heat map plot.
-   5. **rmarkdown** will be used to visualize the table.
+   4. **heatmaply**: Is loaded to generate the heat map plot.
+   5. **rmarkdown** will be used to visualize data table after wrangling for checking the data..
    6. **dendextend** will be used to determine optimal clustering method and number of clusters.
 
 ```{r loading-packages}
@@ -71,7 +71,7 @@ for(p in packages){library
 
 # 5.0 Data Wrangling
 
-The Starbucks drinks menu data with nutritional information will be used for this visulisation and is loading into R.  
+For this data visualization, a provided data set consisting of the different drink menu items in Starbucks and their nutritional values will be used.
 
 ## Loading Data
 
@@ -83,13 +83,13 @@ starbucks <- read_csv("data/starbucks_drink.csv")
 ```
 ## Data Wrangling
 
-For this exercise we are only concerned about drinks from the kids and other category, this category of data is filter out to a tibble object.
+For this exercise, as we are only concerned about drinks from the kids and other category, this category of data is filter out to a tibble object.
 
 ```{r filtering categories}
 kids_drinks <-starbucks %>% filter(Category == 'kids-drinks-and-other')
 ```
 
-Exploring the data, an entry of vanilla creme seem to be mislabeled as its values do not correspond to other like drinks. Highlight below it is only drink with 24oz size in this category despite being labelled as "Tall" size and having high levels of caffeine when other similar drinks have 0 caffeine. It would be safe to remove this data row. In the step below.
+Exploring the data, an entry of vanilla creme seem to be mislabeled as its values do not correspond with values of the same drink. Highlighted below it is only drink with 24oz size in this category despite being labelled as "Tall" size and have high levels of caffeine when other similar drinks have 0 caffeine. It would be safe to remove this data row, as shown in code chunk below with the filter function using the portion value.
 
 ![](img/VanillaCreme.png)
 
@@ -97,19 +97,23 @@ Exploring the data, an entry of vanilla creme seem to be mislabeled as its value
 kids_drinks <- kids_drinks %>% filter(kids_drinks$`Portion(fl oz)` != 24)
 ```
 
-The 'Caffeine' variable by default is loaded as chr variable is this converted to numeric.
+The 'Caffeine' variable by default is loaded as chr variable. Below it is converted to numeric.
 
 ```{r caffeine data type}
 kids_drinks$`Caffeine(mg)` <- parse_number(kids_drinks$`Caffeine(mg)`)
 ```
 
-At this stage a corrgram is generated to explore how correlated the nutritional info are too each other. Prior to generating the plot variables would need to be computed in to correlation matrix first using r cor function. All numeric columns are used.
+At this stage a correlogram is generated to explore how correlated the nutritional info are too each other. Prior to generating the plot, variables would need to be computed in to correlation matrix first using r cor function. All numeric columns are selecting using column number indexing.
 
 ```{r generate gender cols}
 kids_drinks.cor <- cor(kids_drinks[, 3:15])
 ```
 
-The corrgram is generated with corrplot function and specifying the upper portion of the plot to display correlation as ellipses and lower portion as their correlation figures.
+The correlogram is generated with corrplot function and specifying the lower portion of the plot to display correlation as ellipses and upper portion as their correlation figures in the code chunk below. Other options specified below include:
+
+* tl.pos = lt to have the text labels on top and left.
+* diag = l to not display values in the diagonals. 
+* tl.cex, number.cex = to adjust the text size and number size respectively.
 
 ```{r generate male numbers edit, fig.height=6, fig.width=6, fig.align='center', cache=TRUE}
 corrplot.mixed(kids_drinks.cor, 
@@ -121,9 +125,11 @@ corrplot.mixed(kids_drinks.cor,
                tl.cex = 0.8,
                number.cex = 0.7)
 ```
-The generated figure above supports the intuition that the portion size is correlated to few of the nutritional measures such as Calories, Sodium, Total Carbohydrate and Sugars as bigger drinks would contain more content. Most of the other variables such as calories are also positively correlated with many other variables. Interestingly Caffeine in the drink is highly correlated with dietary fiber. 
+The generated figure above supports the intuition that the portion size is correlated to few of the nutritional measures such as Calories, Sodium, Total Carbohydrate and Sugars as bigger drinks would contain more content leading to higher values in those markers. 
 
-Thus as means of reducing the rows of data to be displayed the size of drink is filter to one size of drink. To make sure that the data contains all the combinations of drinks (name, type of milk and whipped) after filtering, the options are concatenated below and the number of unique combinations are checked in the code chunk below.
+Most of the other variables such as calories are also positively correlated with many other variables as they could be derivatives or compositions of each attribute. For example, Total fat, saturated fat and Calories from fat. Interestingly Caffeine in the drink is highly correlated with dietary fiber. 
+
+Thus as means of reducing the rows of data to be displayed the size of drink could be filtered to one size of drink. To make sure that the data contains all the combinations of drinks (name, type of milk and whipped) after filtering, the options are concatenated below and the number of unique combinations are checked in the code chunk below.
 
 ```{r, echo=TRUE}
 kids_drinks2 <-  kids_drinks %>% unite(drink, c("Name", "Milk", "Whipped Cream"))
@@ -131,7 +137,7 @@ length(unique(kids_drinks2$drink))
 ```
 Below, the data is filtered to a specific drink size and number of unique drink combinations is checked again to ensure none of the drink combinations is filtered out. 
 
-With the same number of unique drink combinations, the menu could be filter down using "Tall" size drinks. Checking the summary statistics below, by filtering to one size of the drink, results in all drink combinations with 0g of trans fat. With trans fat correlated to other variables it is assumed that removing it would not affect segmentation results.
+With the same number of unique drink combinations, the menu could be filter down to only "Tall" size drinks. Checking the summary statistics below, by filtering to one size of the drink, results in all drink combinations with 0g of trans fat. With trans fat correlated to other variables it is assumed that removing it would not affect segmentation results significantly.
 
 ```{r, echo=TRUE}
 kids_drinks_filter <- (filter(kids_drinks2, kids_drinks2$Size == "Tall"))
@@ -140,7 +146,7 @@ length(unique(kids_drinks_filter$drink))
 summary(kids_drinks_filter)
 ```
 
-In the next step, columns that do not contribute to the segmentation is removed. Size and Portion column is removed as the visualization will be segmenting the drink across one size. Category is dropped as there is only one category after filtering. Trans fat is dropped as it has value of zero for all drinks of this size.
+In the next step, columns that do not contribute to the segmentation are removed. Size and Portion column is removed as the visualization will be segmenting the drink across one size. Category is dropped as there is only one category after filtering. Trans fat is dropped as it has value of zero for all drinks of this size.
 
 ```{r}
 kids_drinks_selected <- kids_drinks_filter %>% select(- `Portion(fl oz)`, -`Category`, -`Size`, -'Trans fat(g)')
@@ -156,14 +162,14 @@ kd_matrix <- data.matrix(kids_drinks_selected, c(2:13))
 
 # 6.0 Clustering Algorithim Options
 
-To segment the difference drinks, hierarchical clustering with the heat map would be used. The attributes used for clustering is numerical, the default distance option of using dissimilarity between rows is used. Euclidean distance is used to measure dissimilarity between the clusters. The values are scale using the percentize method as it allows and intuitive comparison of the values in each column. In the code chunk below a statistical method is used to determine appropriate hierarchical clustering method. 
+To segment the difference drinks, hierarchical clustering with the heat map would be used. The attributes used for clustering are numerical, the default distance option of using dissimilarity between rows is used. Euclidean distance is used to measure dissimilarity between the clusters. The values are scaled using the percentize method as it allows and intuitive comparison of the values in each column. In the code chunk below a statistical method is used to determine appropriate hierarchical clustering method. 
 
 ```{r}
 
 kd_d <- dist(percentize(kd_matrix[, -c(1)]), method = "euclidean")
 dend_expend(kd_d)[[3]]
 ```
-Based on above code chunck the average clustering method gives the best result. In the code chunk below, optimal number of clusters is determined.
+Based on above code chunk the average clustering method gives the best result. In the code chunk below, optimal number of clusters is determined when using 'average' as the clustering method.
 
 ```{r}
 
@@ -178,14 +184,14 @@ Combining the results obtained above, the code chunk below will be used to gener
 
 - **percentize** to scale the nutritional values by their percentile for easy interpretation.
 - **colv** is set to NA to remove dendrogram among the columns.
-- **seriate** is set to "OLO" optimal leaf ordering such that similar leaf are arrange together.
-- **colors** is set to Reds to correspond that high values of various nutritional values is bad for the diet.
-- **k_rows** is set to 8 based on findings from optimal clustering.
+- **seriate** is set to "OLO" optimal leaf ordering such that similar leaf nodes are arrange together.
+- **colors** is set to Reds to correspond with high values of various nutritional values is relatively bad for the diet.
+- **k_rows** is set to 8 groups among the rows, based on findings from optimal clustering.
 - **font_size** is set to 8 for both row and column font such that the labels are readable and the plot is able to fit in the screen.
 - **Graph title and axis labels** lastly the appropriate title and axis labels are added.
 
 
-```{r, layout="l-page", fig.width=7, fig.height=15, fig.align='center', cache=TRUE}
+```{r, layout="l-page", fig.width=7, fig.height=9, fig.align='center', cache=TRUE}
 
 heatmaply(percentize(kd_matrix[, -c(1)]),
           Colv=NA,
@@ -195,18 +201,20 @@ heatmaply(percentize(kd_matrix[, -c(1)]),
           fontsize_row = 7,
           fontsize_col = 8,
           margins = c(NA,200,60,NA),
-          main="Starbucks Kids and Other Drinks menu Segmented by nutritional info",
+          main="Starbucks Kids and Other Drinks Menu \nSegmented by nutritional info",
           xlab = "Nutritional Values",
           ylab = "Drinks Order"
           )
 ```
 
-# 8.0 Conclusion and Takeaways 
+# 8.0 Conclusion and Takeaways
 
-Reviewing the segmented drinks menu from the top to bottom row, could see the relatively most unhealthy drink is "Salted Caramel Hot Chocolate" with whipped cream, with high percentile of sugar, carbohydrates and sodium indicators. Varying the type of milk used contributes to increasing the amount of protein in the drink. Drinks with coconut milk would have less protein compared with drinks with whole milk.
+In the resultant plot, drinks are arrange by combinations of their nutritional markers. Drink on the higher range of all attributes are positioned towards the top of the chart and correspond to relatively more unhealthy drinks.
 
-Drinks with whipped cream are also segmented together on the top half of the plot due to higher amounts of Calories and total fat indicators suggesting that regardless of the base drink addition of whipped cream contributes significantly to increasing healthy nutritional indicators.
+Reviewing the segmented drinks menu from the top to bottom row, could see the relatively most unhealthy drink is "Salted Caramel Hot Chocolate" with whipped cream, with high percentile of sugar, carbohydrates and sodium indicators. Varying the type of milk used contributes to increasing the amount of protein in the drink, however does little to reduce unhealthy markers. Drinks with coconut milk would have less protein compared with drinks with whole milk.
 
-Hot chocolate and Pumpkin spice hot chocolate were among the most caffeinated drinks on the menu, which parents might wish to take note to prevent accidentally preventing kids from sleeping at night.
+Drinks with whipped cream are mostly arranged on the top half of the plot due to higher amounts of Calories and total fat indicators suggesting that regardless of the base drink addition of whipped cream contributes significantly to increasing healthy nutritional indicators.
 
-For healthier options, should look towards, Cinnamon Dolce Creme, Vanilla Creme or Pumpkin spice creme with no whipped cream and with either almond or non fat milk. The healthiest option on the menu is plain steamed apple juice.
+Hot chocolate, Pumpkin spice hot chocolate and Salted caramel hot chocolate are among the most caffeinated drinks on the menu, which parents might wish to take note of, to prevent accidentally preventing kids from sleeping at night.
+
+For healthier options, should look towards, Cinnamon Dolce Creme, Vanilla Creme or Pumpkin spice creme with no whipped cream and with either almond or non fat milk, located towards the bottom with lower amounts of calories. The option with lowest calories and fat content is Steamed Apple Juice, however it still have relatively high Sugars and Carbohydrates.
