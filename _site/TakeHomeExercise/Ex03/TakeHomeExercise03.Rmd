@@ -41,7 +41,7 @@ The challenge of this exercise is to show the numerous attributes that represent
 
 # 3.0 Proposed solution and Sketch
 
-The propose solution would be a heat map with each row indicating the each of the drinks in the menu and respective nutritional indicators as the columns. Using heatmaply native hierarchical clustering function, the drinks would be segment by their nutritional values. 
+The propose solution would be a heat map with each row indicating the each of the drinks in the menu and respective nutritional indicators as the columns. Using heatmaply native hierarchical clustering function, the drinks would be segmented by their nutritional values. 
 
 ## Proposed Sketech.
 
@@ -103,7 +103,7 @@ The 'Caffeine' variable by default is loaded as chr variable. Below it is conver
 kids_drinks$`Caffeine(mg)` <- parse_number(kids_drinks$`Caffeine(mg)`)
 ```
 
-At this stage a correlogram is generated to explore how correlated the nutritional info are too each other. Prior to generating the plot, variables would need to be computed in to correlation matrix first using r cor function. All numeric columns are selecting using column number indexing.
+At this stage a correlogram is generated to explore how correlated the nutritional info are to each other. Prior to generating the plot, variables would need to be computed in to correlation matrix first using r cor function. All numeric columns are selected by using column number indexing.
 
 ```{r generate gender cols}
 kids_drinks.cor <- cor(kids_drinks[, 3:15])
@@ -169,7 +169,7 @@ To segment the difference drinks, hierarchical clustering with the heat map woul
 kd_d <- dist(percentize(kd_matrix[, -c(1)]), method = "euclidean")
 dend_expend(kd_d)[[3]]
 ```
-Based on above code chunk the average clustering method gives the best result. In the code chunk below, optimal number of clusters is determined when using 'average' as the clustering method.
+Based on above code chunk the average clustering method gives the best result. In the code chunk below, optimal number of clusters is determined when using 'average' as the clustering method. Results show that 8 clusters would give optimal results.
 
 ```{r}
 
@@ -185,7 +185,8 @@ Combining the results obtained above, the code chunk below will be used to gener
 - **percentize** to scale the nutritional values by their percentile for easy interpretation.
 - **colv** is set to NA to remove dendrogram among the columns.
 - **seriate** is set to "OLO" optimal leaf ordering such that similar leaf nodes are arrange together.
-- **colors** is set to Reds to correspond with high values of various nutritional values is relatively bad for the diet.
+- **colors** is set to Blues to use a sequential colour scheme that correspond with high values of various nutritional values and is relatively bad for the diet. Reds was trialed and seem more appropriate however Blues was used to accommodate readers with color vision deficiency.
+- **grid_gap** a gap of 0.2 was added to easily separate the cells.
 - **k_rows** is set to 8 groups among the rows, based on findings from optimal clustering.
 - **font_size** is set to 8 for both row and column font such that the labels are readable and the plot is able to fit in the screen.
 - **Graph title and axis labels** lastly the appropriate title and axis labels are added.
@@ -196,12 +197,13 @@ Combining the results obtained above, the code chunk below will be used to gener
 heatmaply(percentize(kd_matrix[, -c(1)]),
           Colv=NA,
           seriate = "OLO",
-          colors = Reds,
+          colors = Blues,
+          grid_gap = 0.2,
           k_row = 8,
           fontsize_row = 7,
           fontsize_col = 8,
           margins = c(NA,200,60,NA),
-          main="Starbucks Kids and Other Drinks Menu \nSegmented by nutritional info",
+          main="Starbucks Kids and Other Drinks Menu \nSegmented By Nutritional Info",
           xlab = "Nutritional Values",
           ylab = "Drinks Order"
           )
@@ -217,4 +219,4 @@ Drinks with whipped cream are mostly arranged on the top half of the plot due to
 
 Hot chocolate, Pumpkin spice hot chocolate and Salted caramel hot chocolate are among the most caffeinated drinks on the menu, which parents might wish to take note of, to prevent accidentally preventing kids from sleeping at night.
 
-For healthier options, should look towards, Cinnamon Dolce Creme, Vanilla Creme or Pumpkin spice creme with no whipped cream and with either almond or non fat milk, located towards the bottom with lower amounts of calories. The option with lowest calories and fat content is Steamed Apple Juice, however it still have relatively high Sugars and Carbohydrates.
+For healthier options, should look towards, Cinnamon Dolce Creme, Vanilla Creme or Pumpkin spice creme with no whipped cream and with either almond or non fat milk, located towards the bottom with lower amounts of calories. The option with lowest calories and fat content is Steamed Apple Juice, however it still has relatively high Sugars and Carbohydrates.
