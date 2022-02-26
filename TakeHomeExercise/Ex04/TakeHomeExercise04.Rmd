@@ -167,7 +167,7 @@ stocks_data_complete %>%
     panel.border = element_blank()
     ) +
   scale_x_date(expand=c(0,0), date_breaks = "1 month", date_labels = "%b-%y") +
-  ggtitle('Open price for top 40 companies in terms of Martket Capitalization \nFrom 01-Jan-2021 to 31-Dec-2021') +
+  ggtitle('Open price for top 40 companies in terms of Martket Capitalization \nFrom Jan-2020 to 31-Dec-2021') +
   xlab('Month-Year')
 ```
 
