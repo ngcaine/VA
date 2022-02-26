@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 # 1.0 Introduction
 
-In this take home exercise the task will be to visualize the impact of Covid-19 on stock prices of top 40 companies in terms of market capitalization. For this task stock prices between 01-January-2020 to 31-December 2021 will be used.
+In this take home exercise the task will be to visualize the impact of Covid-19 on stock prices of top 40 companies in terms of market capitalization in Singapore. For this task stock prices between 01-January-2020 to 31-December 2021 will be used.
 
 # 2.0 Challenges and considerations
 
@@ -35,7 +35,7 @@ The challenge of this exercise would be to represent the 40 stocks in a concise 
 * Placing all stocks on the same x-axis also allow major events associated with Covid-19 to be compared to the chart.
 * The visualization should be able to show price trends of the stocks overtime.
 * This could be done with a horizon graph with each row representing each of the different stocks on the same time period x axis.
-* Aside from visualization the stock prices would have to scraped from a financial news portal.
+* Aside from visualizing the stock prices, the data would also have to scraped from a financial news portal.
  
 
 # 3.0 Proposed solution and Sketch
@@ -91,6 +91,8 @@ To do so an empty dataframe is first initialized and in subsequent steps each re
 
 Using a for loop, the symbol for each of the 40 stocks is iterated and used to retrieve stock data from Yahoo finance using tq_get function. The retrieve data is store temporarily in 'stock_data_daily' data table. To separate the appended data, the stock symbol is added to stock_data_daily before using a bind_rows function to append the data.
 
+Learning from peers, it is possible to pass a vector of stock symbols to tq_get function to retrieve the data at one go. The use of a loop is not necessary.
+
 ```{r, cache=TRUE}
 
 stocks_data = data.frame()
@@ -142,7 +144,7 @@ The data is visualized using geom_horizon function in the code chunk below with 
 
 - date is used as x-axis values while open price is used as y values in aes option.
 - **scale_fill_hcl** The color scale is set to 'RdBu' such that drops in prices would be highlighted in red.
-- **facet_grid** The name of each stock is used to specify the seperate facet grids.
+- **facet_grid** The name of each stock is used to specify the separate facet grids.
 - **theme** In various theme options, the axis labels are set to element_blank to remove them from the chart, only specifying strip.text.y size and angle such that it could be read.
 - **scale_x_date** is set to monthly breaks and indicating the month day year such that major events during Covid-19 time period could be compared with the chart. 
 - Lastly appropriate time and x-axis labels is added.
@@ -175,7 +177,9 @@ stocks_data_complete %>%
 
 The final plot shows the day opening price of top 40 companies over a two year period from Jan-2020 to Dec-21. Rows are arranged in terms of their market capitalization. 
 
-Scanning across all the rows two distinct points could be observed to have sharp drop in stock price across numerous of the stocks, late Mar-2020 and late Oct-2020. The worse of these periods was in March 2020 which could coinciding with general global market sentiment attributed to Covid-19 panic as numerous countries enter lock down mode and locally progressively stricter measures were implemented. Affecting almost all stocks in the list. However it seem most companies recovered shortly after in April. No obvious relation to pandemic events occurring in late October were found. Stocks that were mainly affected were banks (DBS, UOB) and property developers (City Developments, UOL group). 
+Scanning across all the rows two distinct points could be observed to have sharp drop in stock price across numerous of the stocks, late Mar-2020 and late Oct-2020. The worse of these periods was in March 2020 which could coinciding with general global market sentiment attributed to Covid-19 panic as numerous countries enter lock down mode and locally progressively stricter measures were implemented. Affecting almost all stocks in the list. However it seem most companies recovered shortly after in April and did not see sustain impact to stock prices. 
 
-Mentioned in earlier section some stocks did not have full two year period data. This companies are Grab Holdings, TDCX, Karooooo and Triterras and are stocks that were recently listed on the exchange in previous two year period.
+No obvious relation to pandemic events occurring in late October were found. Stocks that were mainly affected were banks (OCBC, UOB), property developers (City Developments, UOL group) and general congolmerate Jardine Singapore. 
+
+Mentioned in earlier section some stocks did not have full two year period data. These companies are Grab Holdings, TDCX, Karooooo and Triterras and are stocks that were recently listed on various stock exchange in previous two year period.
 
