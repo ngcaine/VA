@@ -1,7 +1,7 @@
 ---
 title: "Dataviz Makeover 2"
 description: |
-  Interactive visualisation of inter- and intra- zonal pulib bus flows at the sub-zone level. January 2022.
+  Interactive visualisation of inter- and intra- zonal public bus flows at the sub-zone level. January 2022.
 author:
   - name: Caine Ng 
     url: https://www.linkedin.com/in/caine-ng-069a5273/
@@ -147,7 +147,7 @@ With tooltips the frequency of trips at different hours of the day could be show
 
 ## 3.2 Proposed Sketch
 
-![](Img/graphic_org-i.png)
+![](Img/dataviz2_sketch.png)
 
 The data represents sub-zone locations around the country, presents the option of visualizing the data in the form of a map, allowing readers to see the relative positions of different localities to each other. The proposed makeover consist of a pair Singapore maps, with one showing location of sources and another the destinations. Two maps are used to allow for comparison between the origins and destinations. Separate maps are used instead of one map with both origin and destination together as the same sub zone could be both a source and destination leading to overlapping of data and cluttering of data points on the map. 
 
@@ -566,19 +566,19 @@ A screenshot of the final visualization is shown below:
 
 ![](Img/final-viz.png)
 
-Full visualization could be found on tableau public [here](https://public.tableau.com/app/profile/caine.ng/viz/DatavizMakeover1-LFPR/Dashboard1)
+Full visualization could be found on tableau public [here](https://public.tableau.com/app/profile/caine.ng/viz/DatavizMakeover2_16480065813330/Dashboard1#8)
 
 # 7.	Main Observations
 
-Listed below are some of the observations drawn from the graphic after makeover:
+Listed below are some of the observations drawn from the graphic after makeover with reference to Land Transport Master Plan 2013 which could be found [here](https://www.lta.gov.sg/content/dam/ltagov/who_we_are/statistics_and_publications/master-plans/pdf/LTMP2013Report.pdf) :
 
-![](Img/final-viz.png)
+![](Img/regional_hubs.png)
 
 ```{r}
 aesthetics <- data.frame(Item = c(1),
                          Obervation = c("Obserable regional hubs."),
                          
-                         Takeaway = c("Visible in the made over visualization is the location of integrated transport hubs represented by nodes with relative higher number of bus trips both to and from these locations. Referencing the land transport authority, transport master plan 2013 (LTMP2013) more interchanges act as locations where communters could shop and have a meal between transfers from bus to mrt. Most visiable of these nodes are Tampines, Bedok north and jurong west."))
+                         Takeaway = c("Visible in visualization after makeover is the location of integrated transport hubs represented by nodes with relative higher number of bus trips both to and from these locations. Referencing the land transport master plan 2013 (LTMP2013) more interchanges act as locations where communters could shop and have a meal between transfers from bus to mrt. Most visiable of these nodes are Tampines, Bedok north, Jurong west and Woodlands east."))
 
 library(knitr)
 kable(aesthetics,align = "cll")%>%
@@ -589,13 +589,15 @@ column_spec(3, width = "40em")
 
 ```
 
-![](Img/final-viz.png)
+![](Img/zonaltravel.png)
 
 ```{r}
-aesthetics <- data.frame(Item = c(2),
-                         Obervation = c("Higher number of bus trips in sub zone vincinty."),
+aesthetics <- data.frame(Item = c(2,3),
+                         Obervation = c("Higher number of bus trips in sub zone vincinty.",
+                                        "Travel between subzones is still obersved."),
                          
-                         Takeaway = c("Clicking on most nodes, it could be observed that most bus trips end in nearby regional subzones. Highlighting the use of public bus transport as means of travel to connect between regional sub zones and to regional interchanges before converting to MRT rail transpoort. For instance, click in tampines node in the visualization, most highlight destination subzones are in nearby region, such as Semei and Tampines west. "))
+                         Takeaway = c("Clicking on most nodes, it could be observed that most bus trips end in nearby regional subzones. Highlighting the use of public bus transport as means of travel to connect between regional sub zones and to regional interchanges before converting to MRT rail transport. For instance, clicking on tampines node in the visualization, most highlighted destination subzones are in nearby region, such as Semei and Tampines west. ",
+                                      "While bus transportation is mainly used for regional sub zone travel, it could be observed by clicking on a node destinations could also reach the other side of the island. Communters from Jurong west central could be seen having destinations as far as Bedok. This is similarly mentioned in LTMP 2013, to give commuters more options to travel, parallel bus services that ply along expressways between fringe towns to city areas to augment rail transportation."))
 
 
 library(knitr)
@@ -607,19 +609,4 @@ column_spec(3, width = "40em")
 
 ```
 
-![](Img/final-viz.png)
 
-```{r}
-aesthetics <- data.frame(Item = c(3),
-                         Obervation = c("Travel between subzones is still obersved."),
-                         
-                         Takeaway = c("While bus transportation is mainly used for regional sub zone travel, it could be observed by click on a node destinations could also reach the other side of the island. Communters from Jurong west central could be seen having destinations as far as Bedok. This is similarly mentioned in LTMP 2013, that "))
-
-library(knitr)
-kable(aesthetics,align = "cll")%>%
-kable_styling(full_width = F) %>%
-column_spec(1, bold = T) %>%
-column_spec(2, width = "20em") %>% 
-column_spec(3, width = "40em") 
-
-```
