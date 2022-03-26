@@ -50,21 +50,17 @@ In terms of **clarity**:
 ```{r}
 Critique = c("**Chart title**: A chart title is not provided for the graphic and left to reader to interpret what the grahpic is about.",
              
-             "**Use of Adjacency Matrix**: The concept of adajcency matrix may not be familiar to many readers and they may not be aware of what the graphic is trying to show.",
-             
              "**Compress Adjacency Matrix**: Due to size of the graphic, the adajcency matrix used to indicate links between origin and destination subzones is compressed and unreadable unless mouse hovers over the plot to show information in the tooltip.",
              
              "**User Guide**: A user guide is not provided for readers to understand how the current interactivity features work.")
 
 Suggestion = c("Appropiate chart title such as 'Visualing Public Bus Flows for January 2022' could be used to give the reader an idea what the chart is about. ",
                
-               "Alternative graphic supplemented with interactivity could be used instead such that readers would intuitively recognise the links between origin and destination. For instance by configuring the graphic such at clicking a source data would highlight destination data would be more intuitive or some form of network diagram.",
-               
                "The large amounts of information and numberous individual level leads to a very dense adjacency matrix and limited space given to it creates a compressed graphic. Alternative visualization using interactivity could be used instead to represent the link between origin and destination. Filters could be used to reduce amount of data shown at one time.",
                
                "A brief description and guide could be provided such that readers would be able to fully appreciate what the visualization is about.")
 
-clarity <- data.frame(Item = c(1,2,3,4), 
+clarity <- data.frame(Item = c(1,2,3), 
                         Critique,
                         Suggestion)
 
@@ -89,7 +85,7 @@ Suggestion = c("Appropriate colors could be used to indicate the different data 
                
                "With interactivity and filters some of the graphics could be combined together and only shown when required as the reader explores the data. With focus on the links between source and destination, hourly frequency could be shown in a tooltip as the reader hovers over the data. The reader can then filter accordingly based on information shown in the tooltip.",
                
-               "By combining the graphics together and using tooltips to show parts of the information, the graphs could be show in one page and allow for easier comparison of the information shown.")
+               "By combining the graphics together and using tooltips to show parts of the information, the remaining graphs could be shown in one page and allow for easier comparison of the information shown.")
 
 aesthetics <- data.frame(Item = c(1,2,3),
                          Critique,
@@ -116,7 +112,7 @@ Critique <-  c("**Separate Filters**: Separate filters are used for source sub z
                
                "**Not making use of Filters**: Currently filters are used for selecting the source and destination sub-zones presented. Filters could instead be used to reduce the amount of information shown and only when the user wishes to see it.")
 
-Suggestion = c("Filters between the source and destination graphic could be linked, such that filtering to one source would show amount of trips to different locations. The revervse could also be done to show number of bus trips from different sources to a destination.",
+Suggestion = c("Filters between the source and destination graphic could be linked, such that filtering to one source would show amount of trips to different locations. The reverse could also be done to show number of bus trips from different sources to a destination.",
                
                "Instead tooltips could be used to show other information that is not presented on the graphic or add additional details. An example would be to show the frequency bar graphs at source and at destination in the tooltip, reducing the graphs shown and could allow more space for other visualizations.",
                
@@ -157,7 +153,7 @@ Different colors would be used for origin and destination graphics.
 
 Frequency of bus trips at a single hour of the day are represented by the size of points on the map. Larger dots would indicate more bus trips to or from a location and the relative size would allow readers to see the difference in frequency. 
 
-The points on the map would also be configured as filters and linked between origin and destination such that when users click on a specific origin or destination the related other locations would be contextually filtered as well.
+The points on the map would also be configured as filters and linked between origin and destination such that when users click on a specific origin or destination the related other locations would be contextually filtered. Taking the function of an adjacency matrix. Size of the points would indicate relative number of trips from different sub zones. 
 
 Filters are used to narrow down the data to a specific hour and either weekday or weekend bus trip data. This allows reader to focus on specific time periods of interest and with animation between transitions from one state to another, the reader could also see the difference between each state.
 
@@ -172,7 +168,7 @@ The advantages of proposed design:
 In terms of **clarity**
 
 - Appropriate titles and user guide would allow the readers to be aware of the options available and how to interact with the visualization to draw their own insights and observations without being left to wonder what it is about.
-- The use of a pair of maps and linked filters between origin and destination would replace the adjacency matrix to convey the same information. Through selecting a source or destination, readers would be able to see the destinations bus trips from a origin are going to. 
+- The use of a pair of maps and linked filters between origin and destination would function as a adjacency matrix to convey the same information. Through selecting a source or destination, readers would be able to see the destinations bus trips from a origin are going to. 
 - The use of linked filters and interactivity would reduce the need for adjacency matrix, removing graphs from the visualization providing more space for other graphs that to be shown fully.
 
 In terms of **aesthetics**
@@ -248,7 +244,7 @@ The next part would be to create a thematic map representing number of trips fro
 ```{r}
 
 Steps <-  c("Click on Sheet1 to start creating the visualization.",
-               "Drag and drop 'Geometry' pill under MP14_SUBZONE_WEB_PL table to the main pane to add a map of Singpaore to the graph.",
+               "Drag and drop 'Geometry' pill under MP14_SUBZONE_WEB_PL table to the main pane to add a map of Singapore to the graph.",
              "Right click Time Per Hour under origin_sheet and select 'convert to dimension'.",
              "Drag and drop the Time Per Hour to the filters pane, select 'All' then click okay.",
             "Right click on the Time Per Hour pill in filters pane and select show filter to add a filter to the graphic.",
@@ -304,11 +300,11 @@ The next part would be to create a thematic map representing number of trips to 
 ```{r}
 
 Steps <-  c("Start by adding a new sheet by clicking 'new worksheet'.",
-               "Drag and drop 'Geometry' pill under MP14_SUBZONE_WEB_PL table to the main pane to add a map of Singaore to the graph.",
+               "Drag and drop 'Geometry' pill under MP14_SUBZONE_WEB_PL table to the main pane to add a map of Singapore to the graph.",
              "Drag and drop the Time Per Hour under origin_sheet to the filters pane, select 'All' then click okay.",
             "Right click on the Time Per Hour pill in filters pane and select show filter to add a filter to the graphic.",
             "Click on the small triangle in the Time per hour filters pane and select 'Single Value Slider' to change its appearance to a slider.",
-            "Drag and drop the Day Type pill under origin_sheet table to the filters pane, select 'All' then click okay.",
+            "Drag and drop the Day Type pill under origin_sheet table to the filters pane, in the follow on pop up select 'All' then click okay.",
             "Right click on the Day Type pill in filters pane and select show filter to add a filter to the graphic.",
             "Click on the small triangle in the Day Type filter pane and select 'Single Value list' to change its appearance to a single value input.",
             "Drag and drop the 'Destination Sz' pill from under origin_sheet and Total Trips pill from uder origin_sheet to details shelf and size shelf respectively.",
@@ -329,8 +325,8 @@ Images = c("![](Img/newsheet.png)",
            "![](Img/showfilterdaytype.png)",
            "![](Img/SingleValuecheck2.png)",
            "![](Img/tripsAndDes.png)",
+           "![](Img/marks.png)",
            "![](Img/marks3.png)",
-           "![](Img/dotcolor.png)",
            "![](Img/title2.png)",
            "![](Img/fixedmap.png)",
            "![](Img/destination.png)",
@@ -363,8 +359,8 @@ Steps <-  c("Start by adding a new sheet by clicking 'new worksheet' icon at the
             "Click on the small triangle in the Origin Sz filters pane and select 'Single Value down' to change its appearance to a drop down list. Tentatively select one sub zone to filter data to one subzone.",
             "Drag and drop from under origins sheet table 'Time per hour' to columns shelf, Day Type to rows shelf and Total Trips to rows shelf.",
             "Right click the total trips axis labels and uncheck the show header option to hide the header labels. Then adjust the y-axis by hovering the move over the axis until the mouse icon change to the width adjustment icon then click and drag the axis to the right to show the full row label.",
-            "Right click the top X-axis row labels at the top left corner of the worksheet and select hide row field labels to hide them.",
-            "Right click the top X-axis column labels at the top centre of the worksheet and select hide column field labels to hide them.",
+            "Right click the top X-axis column label 'Time Per Hour' at the top of the worksheet and select hide field field labels for columns to hide them.",
+            "Right click the top X-axis row label 'Day Type' at the top of the worksheet and select hide field labels for rows to hide them.",
             "Right click the chart title and select edit title to change the title to 'Frequeny of Trips Per Hour'. Configure the title to bold and blue in color.",
             "Change the size of the graph to entire view from the view option in the menu bar.",
             "Right click the worksheet name and select rename to change the worksheet name to OriginFreq.",
@@ -406,13 +402,13 @@ Next bar graphs showing the frequency of bus trips to a sub zone will be generat
 ```{r}
 
 Steps <-  c("Start by adding a new sheet by clicking 'new worksheet' icon at the bottom of the window.",
-            "Drag and drop 'destination Sz' pill from under Origin_sheet table to the filters pane. In the pop up menu select All then click ok.",
+            "Drag and drop 'destination Sz' pill from under Desitnation_sheet table to the filters pane. In the pop up menu select All then click ok.",
             "Right click on the Destinationn Sz pill in filters pane and select show filter to add a filter to the graphic.",
             "Click on the small triangle in the Destination Sz filters pane and select 'Single Value dropdown' to change its appearance to a drop down list. Tentatively select one sub zone to filter data to one subzone.",
-            "Drag and drop from under Origin sheet table 'Time per hour' to columns shelf, Day Type to rows shelf and Total Trips to rows shelf.",
-            "Right click the total trips axis labels and uncheck the show header option to hide the header labels. The adjust the y-axis by hovering the move over the axis until the mouse icon change to width adjustment icon then click and drag the axis to the right to show the full row label.",
-            "Right click the top X-axis row labels at the top left corner of the worksheet and select hide row field labels to hide them.",
-            "Right click the top X-axis column labels at the top centre of the worksheet and select hide column field labels to hide them.",
+            "Drag and drop from under Destination sheet table 'Time per hour' to columns shelf, Day Type to rows shelf and Total Trips to rows shelf.",
+            "Right click the total trips axis labels and uncheck the show header option to hide the header labels. The adjust the y-axis by hovering the mouse over the axis until the mouse icon change to width adjustment icon then click and drag the axis to the right to show the full row label.",
+            "Right click the top X-axis row label 'Day Type' at the top left corner of the worksheet and select hide row field labels to hide them.",
+            "Right click the top X-axis column label 'Time Per Hour' at the top centre of the worksheet and select hide column field labels to hide them.",
             "Right click the chart title and select edit title to change the title to 'Frequeny of Arrivals Per Hour'. Configure the title to bold and blue in color.",
             "Click on colors in the marks shelf and select red to change the graph to red color.",
             "Change the size of the graph to entire view from the view option in the menu bar.",
@@ -578,7 +574,7 @@ Listed below are some of the observations drawn from the graphic after makeover 
 aesthetics <- data.frame(Item = c(1),
                          Obervation = c("Obserable regional hubs."),
                          
-                         Takeaway = c("Visible in visualization after makeover is the location of integrated transport hubs represented by nodes with relative higher number of bus trips both to and from these locations. Referencing the land transport master plan 2013 (LTMP2013) more interchanges act as locations where communters could shop and have a meal between transfers from bus to mrt. Most visiable of these nodes are Tampines, Bedok north, Jurong west and Woodlands east."))
+                         Takeaway = c("Visible in visualization after makeover is the location of integrated transport hubs represented by nodes with relative higher number of bus trips both to and from these locations. Referencing the land transport master plan 2013 (LTMP2013) more interchanges act as locations where communters could shop and have a meal between transfers from bus to mrt. Most visible of these nodes are Tampines, Bedok north, Jurong west and Woodlands east."))
 
 library(knitr)
 kable(aesthetics,align = "cll")%>%
