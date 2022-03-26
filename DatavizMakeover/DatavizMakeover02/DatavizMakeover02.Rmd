@@ -589,7 +589,7 @@ column_spec(3, width = "40em")
 
 ```{r}
 aesthetics <- data.frame(Item = c(2,3),
-                         Obervation = c("Higher number of bus trips in sub zone vincinty.",
+                         Obervation = c("Higher number of bus trips in sub zone vicinity.",
                                         "Travel between subzones is still obersved."),
                          
                          Takeaway = c("Clicking on most nodes, it could be observed that most bus trips end in nearby regional subzones. Highlighting the use of public bus transport as means of travel to connect between regional sub zones and to regional interchanges before converting to MRT rail transport. For instance, clicking on tampines node in the visualization, most highlighted destination subzones are in nearby region, such as Semei and Tampines west. ",
